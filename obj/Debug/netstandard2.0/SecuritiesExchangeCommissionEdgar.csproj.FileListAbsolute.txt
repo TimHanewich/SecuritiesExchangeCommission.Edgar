@@ -1,0 +1,9 @@
+C:\Users\tahan\Documents\GitHub\SecuritiesExchangeCommission.Edgar\bin\Debug\netstandard2.0\SecuritiesExchangeCommissionEdgar.deps.json
+C:\Users\tahan\Documents\GitHub\SecuritiesExchangeCommission.Edgar\bin\Debug\netstandard2.0\SecuritiesExchangeCommissionEdgar.dll
+C:\Users\tahan\Documents\GitHub\SecuritiesExchangeCommission.Edgar\bin\Debug\netstandard2.0\SecuritiesExchangeCommissionEdgar.pdb
+C:\Users\tahan\Documents\GitHub\SecuritiesExchangeCommission.Edgar\obj\Debug\netstandard2.0\SecuritiesExchangeCommissionEdgar.csprojAssemblyReference.cache
+C:\Users\tahan\Documents\GitHub\SecuritiesExchangeCommission.Edgar\obj\Debug\netstandard2.0\SecuritiesExchangeCommissionEdgar.csproj.CoreCompileInputs.cache
+C:\Users\tahan\Documents\GitHub\SecuritiesExchangeCommission.Edgar\obj\Debug\netstandard2.0\SecuritiesExchangeCommissionEdgar.AssemblyInfoInputs.cache
+C:\Users\tahan\Documents\GitHub\SecuritiesExchangeCommission.Edgar\obj\Debug\netstandard2.0\SecuritiesExchangeCommissionEdgar.AssemblyInfo.cs
+C:\Users\tahan\Documents\GitHub\SecuritiesExchangeCommission.Edgar\obj\Debug\netstandard2.0\SecuritiesExchangeCommissionEdgar.dll
+C:\Users\tahan\Documents\GitHub\SecuritiesExchangeCommission.Edgar\obj\Debug\netstandard2.0\SecuritiesExchangeCommissionEdgar.pdb

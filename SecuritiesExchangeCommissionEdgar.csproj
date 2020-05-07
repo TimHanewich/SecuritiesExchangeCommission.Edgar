@@ -11,16 +11,19 @@
     <PackageId>SecuritiesExchangeCommission.Edgar</PackageId>
     <Product>SecuritiesExchangeCommission.Edgar</Product>
     <Description>Library for accessing filings from the EDGAR databse of the Securities Exchange Commission.</Description>
-    <PackageIcon>SEC.png</PackageIcon>
+    <!--<PackageIcon>SEC.png</PackageIcon>-->
     <PackageTags>sec,edgar,10k,10-k,10q,10-q</PackageTags>
     <PackageReleaseNotes>v1 - Initial release (May 2, 2020)</PackageReleaseNotes>
   </PropertyGroup>
 
+<!--
   <ItemGroup>
     <None Include="..\..\..\..\Downloads\SEC.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
+
+  -->
 
 </Project>

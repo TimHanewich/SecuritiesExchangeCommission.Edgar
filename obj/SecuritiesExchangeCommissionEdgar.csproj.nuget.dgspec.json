@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TaHan\\source\\repos\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar\\SecuritiesExchangeCommissionEdgar.csproj": {}
+    "C:\\Users\\tahan\\Documents\\GitHub\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TaHan\\source\\repos\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar\\SecuritiesExchangeCommissionEdgar.csproj": {
+    "C:\\Users\\tahan\\Documents\\GitHub\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TaHan\\source\\repos\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar\\SecuritiesExchangeCommissionEdgar.csproj",
+        "projectUniqueName": "C:\\Users\\tahan\\Documents\\GitHub\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar.csproj",
         "projectName": "SecuritiesExchangeCommission.Edgar",
-        "projectPath": "C:\\Users\\TaHan\\source\\repos\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar\\SecuritiesExchangeCommissionEdgar.csproj",
-        "packagesPath": "C:\\Users\\TaHan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TaHan\\source\\repos\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar\\obj\\",
+        "projectPath": "C:\\Users\\tahan\\Documents\\GitHub\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar.csproj",
+        "packagesPath": "C:\\Users\\tahan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tahan\\Documents\\GitHub\\SecuritiesExchangeCommission.Edgar\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\TaHan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\tahan\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

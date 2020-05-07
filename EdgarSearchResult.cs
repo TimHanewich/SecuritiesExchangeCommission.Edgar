@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
+using System.Collections.Generic;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
@@ -76,5 +77,79 @@ namespace SecuritiesExchangeCommission.Edgar
 
         }
 
+        public async Task<FilingDocument[]> GetDocumentFormatFilesAsync()
+        {
+            CheckDocumentUrlValid();
+
+            int loc1 = 0;
+            int loc2 = 0;
+            
+            
+            HttpClient hc = new HttpClient();
+            HttpResponseMessage hrm = await hc.GetAsync(DocumentsUrl);
+            string web = await hrm.Content.ReadAsStringAsync();
+
+            loc1 = web.IndexOf("Document Format Files");
+            loc2 = web.IndexOf("</table>");
+            if (loc2 <= loc1)
+            {
+                throw new Exception("Unable to locate document format files.");
+            }
+
+        
+            string docformatfiledata = web.Substring(loc1+1, loc2-loc1-1);
+            FilingDocument[] docs = GetDocumentsFromTable(docformatfiledata);
+
+            return docs;
+        }
+    
+        private void CheckDocumentUrlValid()
+        {
+            //Check for invalid document URL
+            if (DocumentsUrl == null)
+            {
+                throw new Exception("Documents URL was null!  Unable to gather files.");
+            }
+            if (DocumentsUrl == "")
+            {
+                throw new Exception("Documents URL was blank!  Unable to gather files.");
+            }
+        }
+    
+        private FilingDocument[] GetDocumentsFromTable(string table_data)
+        {
+            int loc1 = 0;
+            int loc2 = 0;
+            List<FilingDocument> fds = new List<FilingDocument>();
+            List<string> splitter = new List<string>();
+            splitter.Clear();
+            splitter.Add("<tr");
+            string[] rows = table_data.Split(splitter.ToArray(), StringSplitOptions.None);
+            int t = 0;
+            for (t = 2;t<rows.Length;t++)
+            {
+                
+                splitter.Clear();
+                splitter.Add("<td");
+                string[] cols = rows[t].Split(splitter.ToArray(), StringSplitOptions.None);
+                t = 0;
+                
+                if (cols.Length > 1)
+                {
+                    FilingDocument fd = new FilingDocument();
+                    
+                    //Get sequence #
+                    loc1 = cols[1].IndexOf(">");
+                    loc2 = cols[1].IndexOf("<", loc1 + 1);
+                    string seqnum = cols[1].Substring(loc1+1,loc2-loc1 - 1);
+                    fd.Sequence = Convert.ToInt32(seqnum);
+
+                    fds.Add(fd);
+                }
+
+                
+            }
+            return fds.ToArray();
+        }
     }
 }

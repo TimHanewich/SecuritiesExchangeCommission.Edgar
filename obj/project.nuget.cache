@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "c20aGb8NGc3CMayPHK1nY4pipgLBHqiU02iVOSTe4KX36EZ0ezmx36fcE+emC1UmGA2qbi0IH+mA/Js2Ko8Ikw==",
+  "dgSpecHash": "RoiEdJWqGeWe3WdjDUQqPB9fD7ZGDtD4cKAUTRvkg7s9/OtOi0Xf2IvG1xDctQJUgjd7bBgpbC11d6dd3LbD5w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\TaHan\\source\\repos\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar\\SecuritiesExchangeCommissionEdgar.csproj",
+  "projectFilePath": "C:\\Users\\tahan\\Documents\\GitHub\\SecuritiesExchangeCommission.Edgar\\SecuritiesExchangeCommissionEdgar.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\TaHan\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\TaHan\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Users\\tahan\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\tahan\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
   ],
   "logs": []
 }
