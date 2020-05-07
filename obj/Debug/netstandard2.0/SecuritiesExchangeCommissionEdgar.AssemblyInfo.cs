@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Library for accessing filings from the EDGAR databse of the Securities Exchange C" +
     "ommission.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2")]
 [assembly: System.Reflection.AssemblyProductAttribute("SecuritiesExchangeCommission.Edgar")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SecuritiesExchangeCommissionEdgar")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.0.0.0")]

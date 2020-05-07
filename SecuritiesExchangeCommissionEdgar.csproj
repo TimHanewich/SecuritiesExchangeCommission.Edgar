@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1</Version>
+    <Version>2</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <FileVersion>0.0.0.0</FileVersion>
     <Authors>Tim Hanewich</Authors>
@@ -11,19 +11,17 @@
     <PackageId>SecuritiesExchangeCommission.Edgar</PackageId>
     <Product>SecuritiesExchangeCommission.Edgar</Product>
     <Description>Library for accessing filings from the EDGAR databse of the Securities Exchange Commission.</Description>
-    <!--<PackageIcon>SEC.png</PackageIcon>-->
     <PackageTags>sec,edgar,10k,10-k,10q,10-q</PackageTags>
-    <PackageReleaseNotes>v1 - Initial release (May 2, 2020)</PackageReleaseNotes>
+    <PackageReleaseNotes>v2 (May 6, 2020) - Added filing document access.</PackageReleaseNotes>
+    <PackageIcon>SecLogo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/TimHanewich/SecuritiesExchangeCommission.Edgar</RepositoryUrl>
   </PropertyGroup>
 
-<!--
   <ItemGroup>
-    <None Include="..\..\..\..\Downloads\SEC.png">
+    <None Include="SecLogo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
-  -->
 
 </Project>
