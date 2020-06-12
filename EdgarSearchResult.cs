@@ -19,9 +19,22 @@ namespace SecuritiesExchangeCommission.Edgar
         {
             FilingDocument[] DataFiles = await GetDataFilesAsync();
 
+            //Try and get it from the document filing description
             foreach (FilingDocument fd in DataFiles)
             {
                 if (fd.Description.Trim().ToLower().Contains("instance document"))
+                {
+                    HttpClient hc = new HttpClient();
+                    HttpResponseMessage hrm = await hc.GetAsync(fd.Url);
+                    Stream s = await hrm.Content.ReadAsStreamAsync();
+                    return s;
+                }
+            }
+
+            //Try and get it from the document filing type
+            foreach (FilingDocument fd in DataFiles)
+            {
+                if (fd.DocumentType.ToLower().Contains("ins"))
                 {
                     HttpClient hc = new HttpClient();
                     HttpResponseMessage hrm = await hc.GetAsync(fd.Url);
