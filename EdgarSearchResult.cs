@@ -134,8 +134,11 @@ namespace SecuritiesExchangeCommission.Edgar
                     
                     //Get description
                     loc1 = cols[2].IndexOf(">");
-                    loc2 = cols[2].IndexOf("<", loc1 + 1);
+                    loc2 = cols[2].IndexOf("</td", loc1 + 1);
                     fd.Description = cols[2].Substring(loc1 + 1, loc2 - loc1 - 1);
+                    //Remove the bold symbols
+                    fd.Description = fd.Description.Replace("<b>","");
+                    fd.Description = fd.Description.Replace("</b>","");
                     
 
                     //Get URL and file name
