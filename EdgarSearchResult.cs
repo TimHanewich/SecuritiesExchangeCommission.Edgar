@@ -17,64 +17,20 @@ namespace SecuritiesExchangeCommission.Edgar
 
         public async Task<Stream> DownloadXbrlDocumentAsync()
         {
-            if (DocumentsUrl == "")
+            FilingDocument[] DataFiles = await GetDataFilesAsync();
+
+            foreach (FilingDocument fd in DataFiles)
             {
-                throw new Exception("Documents URL is blank.");
+                if (fd.Description.Trim().ToLower().Contains("instance document"))
+                {
+                    HttpClient hc = new HttpClient();
+                    HttpResponseMessage hrm = await hc.GetAsync(fd.Url);
+                    Stream s = await hrm.Content.ReadAsStreamAsync();
+                    return s;
+                }
             }
 
-            HttpClient hc = new HttpClient();
-            HttpResponseMessage hrm = await hc.GetAsync(DocumentsUrl);
-            string web = await hrm.Content.ReadAsStringAsync();
-
-            int loc1 = 0;
-            int loc2 = 0;
-
-            loc2 = web.LastIndexOf("</table>");
-            loc1 = web.LastIndexOf("<table", loc2);
-            string table_data = web.Substring(loc1, loc2 - loc1);
-            string XBRL_URL = "";
-
-
-            if (table_data.ToLower().Contains("extracted"))
-            {
-                loc1 = web.LastIndexOf("<tr", loc2);
-                string LastRow = web.Substring(loc1, loc2 - loc1);
-                if (LastRow.ToLower().Contains("xbrl") == false)
-                {
-                    throw new Exception("Unable to find XBRL document.");
-                }
-                loc1 = LastRow.IndexOf("href");
-                if (loc1 == -1)
-                {
-                    throw new Exception("Unable to find download link for XBRL instance document.");
-                }
-                loc1 = LastRow.IndexOf("\"", loc1);
-                loc2 = LastRow.IndexOf("\"", loc1 + 1);
-                XBRL_URL = LastRow.Substring(loc1 + 1, loc2 - loc1 - 1);
-                XBRL_URL = "https://www.sec.gov" + XBRL_URL;
-            }
-            else //It is in the top row
-            {
-                loc1 = table_data.IndexOf("</tr>");
-                loc1 = table_data.IndexOf("href", loc1 + 1);
-                if (loc1 == -1)
-                {
-                    throw new Exception("Unable to find download link for XBRL instance document.");
-                }
-                loc1 = table_data.IndexOf("\"", loc1 + 1);
-                loc2 = table_data.IndexOf("\"", loc1 + 1);
-                XBRL_URL = table_data.Substring(loc1 + 1, loc2 - loc1 - 1);
-                XBRL_URL = "https://www.sec.gov" + XBRL_URL;
-            }
-
-
-
-            HttpResponseMessage hrmd = await hc.GetAsync(XBRL_URL);
-            Stream ds = await hrmd.Content.ReadAsStreamAsync();
-
-            return ds;
-
-
+            throw new Exception("Unable to find XBRL Instance Document in this filing document.");
         }
 
         public async Task<FilingDocument[]> GetDocumentFormatFilesAsync()
@@ -150,7 +106,6 @@ namespace SecuritiesExchangeCommission.Edgar
             splitter.Clear();
             splitter.Add("<tr");
             string[] rows = table_data.Split(splitter.ToArray(), StringSplitOptions.None);
-            Console.WriteLine("Rows: " + rows.Length.ToString());
             int r = 0;
             for (r = 2;r<rows.Length;r++)
             {
