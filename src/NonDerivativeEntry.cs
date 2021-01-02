@@ -31,7 +31,12 @@ namespace SecuritiesExchangeCommission.Edgar
                     XmlNode node_value = node_sharesOwnedFollowingTransaction.SelectSingleNode("value");
                     if (node_value != null)
                     {
-                        SharesOwnedFollowingTransaction = Convert.ToUInt32(node_value.InnerText);
+                        string node_val_str = node_value.InnerText;
+                        if (node_val_str.Contains("."))
+                        {
+                            node_val_str = node_val_str.Substring(0, node_val_str.IndexOf(".")-1);
+                        }
+                        SharesOwnedFollowingTransaction = Convert.ToUInt32(node_val_str);
                     }
                 }
 
