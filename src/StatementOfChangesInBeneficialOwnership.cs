@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
@@ -24,6 +25,9 @@ namespace SecuritiesExchangeCommission.Edgar
         public string OwnerZipCode {get; set;}
         public bool OwnerIsOfficer {get; set;}
         public string OwnerOfficerTitle {get; set;}
+
+        //Non derivative table (transactions and holdings)
+        public NonDerivativeEntry[] NonDerivatives {get; set;}
 
         public static StatementOfChangesInBeneficialOwnership ParseXml(string xml)
         {
@@ -138,18 +142,23 @@ namespace SecuritiesExchangeCommission.Edgar
             XmlNode node_nonDerivativeTable = doc_data.SelectSingleNode("nonDerivativeTable");
             if (node_nonDerivativeTable != null)
             {
+                List<NonDerivativeEntry> NDEs = new List<NonDerivativeEntry>();
                 foreach (XmlNode node_nonDerivativeEntry in node_nonDerivativeTable.ChildNodes)
                 {
-                    //If it is a transaction (most common)
-                    if (node_nonDerivativeEntry.Name == "nonDerivativeTransaction")
+                    if (node_nonDerivativeEntry.Name == "nonDerivativeTransaction") //If it is a transaction (most common)
                     {
-
+                        NonDerivativeTransaction ndt = new NonDerivativeTransaction();
+                        ndt.LoadFromNode(node_nonDerivativeEntry);
+                        NDEs.Add(ndt);
                     }
                     else if (node_nonDerivativeEntry.Name == "nonDerivativeHolding") //It is a holding
                     {
-
+                        NonDerivativeHolding nde = new NonDerivativeHolding();
+                        nde.LoadFromNode(node_nonDerivativeEntry);
+                        NDEs.Add(nde);
                     }   
                 }
+                ToReturn.NonDerivatives = NDEs.ToArray();
             }
 
             #endregion
