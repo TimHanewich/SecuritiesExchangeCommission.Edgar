@@ -77,15 +77,40 @@ namespace SecuritiesExchangeCommission.Edgar
 
             //Owner relationship
             XmlNode node_reportingOwnerRelationship = node_reportingowner.SelectSingleNode("reportingOwnerRelationship");
-            string owner_is_officer_val = node_reportingOwnerRelationship.SelectSingleNode("isOfficer").InnerText;
-            if (owner_is_officer_val == "0")
+
+            //Owner is officer (this is sometimes called "Director")
+            XmlNode node_isOfficer = node_reportingOwnerRelationship.SelectSingleNode("isOfficer");
+            XmlNode node_isDirector = node_reportingOwnerRelationship.SelectSingleNode("isDirector");
+            if (node_isOfficer != null)
+            {
+                string owner_is_officer_val = node_reportingOwnerRelationship.SelectSingleNode("isOfficer").InnerText;
+                if (owner_is_officer_val == "0")
+                {
+                    ToReturn.OwnerIsOfficer = false;
+                }
+                else if (owner_is_officer_val == "1")
+                {
+                    ToReturn.OwnerIsOfficer = true;
+                }
+            }
+            else if (node_isDirector != null) //If the isOfficer node was null, check for the isDirector node instead.
+            {
+                string owner_is_officer_val = node_reportingOwnerRelationship.SelectSingleNode("isDirector").InnerText;
+                if (owner_is_officer_val == "0")
+                {
+                    ToReturn.OwnerIsOfficer = false;
+                }
+                else if (owner_is_officer_val == "1")
+                {
+                    ToReturn.OwnerIsOfficer = true;
+                }
+            }
+            else //If we couldn't find a relevant tag, just say they are not an officer
             {
                 ToReturn.OwnerIsOfficer = false;
             }
-            else if (owner_is_officer_val == "1")
-            {
-                ToReturn.OwnerIsOfficer = true;
-            }
+
+            
 
             //Get the officer title (this will only be there if this person is an officer)
             if (ToReturn.OwnerIsOfficer)
