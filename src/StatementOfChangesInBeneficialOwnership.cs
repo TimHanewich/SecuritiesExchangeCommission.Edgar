@@ -86,7 +86,25 @@ namespace SecuritiesExchangeCommission.Edgar
             {
                 ToReturn.OwnerIsOfficer = true;
             }
-            ToReturn.OwnerOfficerTitle = node_reportingOwnerRelationship.SelectSingleNode("officerTitle").InnerText;
+
+            //Get the officer title (this will only be there if this person is an officer)
+            if (ToReturn.OwnerIsOfficer)
+            {
+                XmlNode node_officerTitle = node_reportingOwnerRelationship.SelectSingleNode("officerTitle");
+                if (node_officerTitle != null)
+                {
+                    ToReturn.OwnerOfficerTitle = node_reportingOwnerRelationship.SelectSingleNode("officerTitle").InnerText;
+                }
+                else
+                {
+                    ToReturn.OwnerOfficerTitle = null;
+                }
+            }
+            else
+            {
+                ToReturn.OwnerOfficerTitle = null;
+            }
+            
 
             #endregion
 
