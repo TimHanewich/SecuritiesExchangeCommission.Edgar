@@ -9,7 +9,7 @@ namespace SecuritiesExchangeCommission.Edgar
         TransactionVoluntarilyReportedEarlierThanRequired = 2, //V
         GrantOrAward = 3, //A
         SaleBackToIssuer = 4, //D
-        PaymentOfExcerszePriceOrTaxLiability = 5, //F
+        PaymentOfExcersizePriceOrTaxLiability = 5, //F
         DiscretionaryTransaction = 6, //I
         ExcersizeOrConversionOfDerivativeSecurity = 7, //M
         ConversionOfDerivativeSecurity = 8, //C
