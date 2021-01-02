@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "kJFwFpkmam4Q/QVXgg7L+MDnKPGpfz3+Roqyb60TUjye60GuTlnZt8+7ylpqjxsME/DZqTlkWWmGdJgUZ/gmrw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\TaHan\\Downloads\\SecuritiesExchangeCommission.Edgar\\testing\\testing.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\TaHan\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
