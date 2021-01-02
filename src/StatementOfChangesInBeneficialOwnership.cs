@@ -133,6 +133,27 @@ namespace SecuritiesExchangeCommission.Edgar
 
             #endregion
 
+            #region "Non Derivative table"
+
+            XmlNode node_nonDerivativeTable = doc_data.SelectSingleNode("nonDerivativeTable");
+            if (node_nonDerivativeTable != null)
+            {
+                foreach (XmlNode node_nonDerivativeEntry in node_nonDerivativeTable.ChildNodes)
+                {
+                    //If it is a transaction (most common)
+                    if (node_nonDerivativeEntry.Name == "nonDerivativeTransaction")
+                    {
+
+                    }
+                    else if (node_nonDerivativeEntry.Name == "nonDerivativeHolding") //It is a holding
+                    {
+
+                    }   
+                }
+            }
+
+            #endregion
+
             return ToReturn;
         }
 
