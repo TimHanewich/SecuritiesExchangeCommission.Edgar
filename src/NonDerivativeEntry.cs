@@ -9,7 +9,7 @@ namespace SecuritiesExchangeCommission.Edgar
         public uint SharesOwnedFollowingTransaction {get; set;} //Post transaction amounts
         public OwnershipNature DirectOrIndirectOwnership {get; set;} //Direct or indirect ownership
 
-        public void LoadFromNode(XmlNode node)
+        public virtual void LoadFromNode(XmlNode node)
         {
             //Security title
             XmlNode node_securityTitle = node.SelectSingleNode("securityTitle");
