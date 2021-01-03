@@ -1,5 +1,6 @@
 src/bin/
 src/obj/
+src/.vs/
 testing/bin/
 testing/obj/
 .vscode/
