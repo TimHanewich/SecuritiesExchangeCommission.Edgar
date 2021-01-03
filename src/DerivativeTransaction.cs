@@ -65,7 +65,17 @@ namespace SecuritiesExchangeCommission.Edgar
                     XmlNode node_value = node_transactionShares.SelectSingleNode("value");
                     if (node_value != null)
                     {
-                        Quantity = uint.Parse(node_value.InnerText);
+                        string quantity_str = node_value.InnerText;
+                        if (quantity_str.Contains(".")) //For partial shares, round
+                        {
+                            float val = float.Parse(quantity_str);
+                            uint quant = Convert.ToUInt32(Math.Round(val));
+                            Quantity = quant;
+                        }
+                        else
+                        {
+                            Quantity = uint.Parse(node_value.InnerText);
+                        }
                     }
                 }
 
