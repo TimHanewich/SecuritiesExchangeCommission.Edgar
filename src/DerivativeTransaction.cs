@@ -8,14 +8,14 @@ namespace SecuritiesExchangeCommission.Edgar
         public string DerivativeSecurityTitle {get; set;}
         public DateTime TransactionDate {get; set;}
         public TransactionType TransactionCode {get; set;}
-        public uint Quantity {get; set;}
+        public float Quantity {get; set;}
         public AcquiredDisposed AcquiredOrDisposed {get; set;}
         public DateTime? Excersisable {get; set;}
         public DateTime? Expiration {get; set;}
         public string UnderlyingSecurityTitle {get; set;}
-        public uint UnderlyingSecurityShares {get; set;}
+        public float UnderlyingSecurityShares {get; set;}
         public float DerivativeSecurityPricePerShare {get; set;}
-        public uint DerivativeSecuritiesOwnedFollowingTransaction {get; set;}
+        public float DerivativeSecuritiesOwnedFollowingTransaction {get; set;}
         public OwnershipNature DirectOrIndirectOwnership {get; set;}
 
         public void LoadFromNode(XmlNode node)
@@ -66,16 +66,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     if (node_value != null)
                     {
                         string quantity_str = node_value.InnerText;
-                        if (quantity_str.Contains(".")) //For partial shares, round
-                        {
-                            float val = float.Parse(quantity_str);
-                            uint quant = Convert.ToUInt32(Math.Round(val));
-                            Quantity = quant;
-                        }
-                        else
-                        {
-                            Quantity = uint.Parse(node_value.InnerText);
-                        }
+                        Quantity = Convert.ToSingle(quantity_str);
                     }
                 }
 
@@ -172,7 +163,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     XmlNode node_value = node_underlyingSecurityShares.SelectSingleNode("value");
                     if (node_value != null)
                     {
-                        UnderlyingSecurityShares = Convert.ToUInt32(node_value.InnerText);
+                        UnderlyingSecurityShares = Convert.ToSingle(node_value.InnerText);
                     }
                 }
             }
@@ -187,7 +178,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     XmlNode node_value = node_sharesOwnedFollowingTransaction.SelectSingleNode("value");
                     if (node_value != null)
                     {
-                        DerivativeSecuritiesOwnedFollowingTransaction = Convert.ToUInt32(node_value.InnerText);
+                        DerivativeSecuritiesOwnedFollowingTransaction = Convert.ToSingle(node_value.InnerText);
                     }
                 }
             }
