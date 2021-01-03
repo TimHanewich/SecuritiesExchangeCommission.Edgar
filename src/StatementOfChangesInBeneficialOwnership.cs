@@ -30,6 +30,9 @@ namespace SecuritiesExchangeCommission.Edgar
         public NonDerivativeTransaction[] NonDerivativeTransactions {get; set;}
         public NonDerivativeHolding[] NonDerivativeHoldings {get; set;}
 
+        //Derivative transactions
+        public DerivativeTransaction[] DerivativeTransactions {get; set;}
+
         public static StatementOfChangesInBeneficialOwnership ParseXml(string xml)
         {
             StatementOfChangesInBeneficialOwnership ToReturn = new StatementOfChangesInBeneficialOwnership();
@@ -162,6 +165,23 @@ namespace SecuritiesExchangeCommission.Edgar
                 }
                 ToReturn.NonDerivativeTransactions = transactions.ToArray();
                 ToReturn.NonDerivativeHoldings = holdings.ToArray();
+            }
+
+            #endregion
+
+            #region "Derivative table"
+            
+            XmlNode node_derivativeTable = doc_data.SelectSingleNode("derivativeTable");
+            if (node_derivativeTable != null)
+            {
+                List<DerivativeTransaction> DTs = new List<DerivativeTransaction>();
+                foreach (XmlNode node_derivativeTransaction in node_derivativeTable.ChildNodes)
+                {
+                    DerivativeTransaction dt = new DerivativeTransaction();
+                    dt.LoadFromNode(node_derivativeTransaction);
+                    DTs.Add(dt);
+                }
+                ToReturn.DerivativeTransactions = DTs.ToArray();
             }
 
             #endregion
