@@ -27,7 +27,8 @@ namespace SecuritiesExchangeCommission.Edgar
         public string OwnerOfficerTitle {get; set;}
 
         //Non derivative table (transactions and holdings)
-        public NonDerivativeEntry[] NonDerivatives {get; set;}
+        public NonDerivativeTransaction[] NonDerivativeTransactions {get; set;}
+        public NonDerivativeHolding[] NonDerivativeHoldings {get; set;}
 
         public static StatementOfChangesInBeneficialOwnership ParseXml(string xml)
         {
@@ -142,23 +143,25 @@ namespace SecuritiesExchangeCommission.Edgar
             XmlNode node_nonDerivativeTable = doc_data.SelectSingleNode("nonDerivativeTable");
             if (node_nonDerivativeTable != null)
             {
-                List<NonDerivativeEntry> NDEs = new List<NonDerivativeEntry>();
+                List<NonDerivativeTransaction> transactions = new List<NonDerivativeTransaction>();
+                List<NonDerivativeHolding> holdings = new List<NonDerivativeHolding>();
                 foreach (XmlNode node_nonDerivativeEntry in node_nonDerivativeTable.ChildNodes)
                 {
                     if (node_nonDerivativeEntry.Name == "nonDerivativeTransaction") //If it is a transaction (most common)
                     {
                         NonDerivativeTransaction ndt = new NonDerivativeTransaction();
                         ndt.LoadFromNode(node_nonDerivativeEntry);
-                        NDEs.Add(ndt);
+                        transactions.Add(ndt);
                     }
                     else if (node_nonDerivativeEntry.Name == "nonDerivativeHolding") //It is a holding
                     {
                         NonDerivativeHolding nde = new NonDerivativeHolding();
                         nde.LoadFromNode(node_nonDerivativeEntry);
-                        NDEs.Add(nde);
+                        holdings.Add(nde);
                     }   
                 }
-                ToReturn.NonDerivatives = NDEs.ToArray();
+                ToReturn.NonDerivativeTransactions = transactions.ToArray();
+                ToReturn.NonDerivativeHoldings = holdings.ToArray();
             }
 
             #endregion
