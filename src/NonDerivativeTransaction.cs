@@ -8,7 +8,7 @@ namespace SecuritiesExchangeCommission.Edgar
     {
         public DateTime TransactionDate {get; set;}
         public TransactionType TransactionCode {get; set;}
-        public uint TransactionShares {get; set;}
+        public float TransactionShares {get; set;}
         public float PricePerShare {get; set;}
         public AcquiredDisposed AcquiredOrDisposed {get; set;}
 
@@ -51,7 +51,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     XmlNode node_value = node_transactionShares.SelectSingleNode("value");
                     if (node_value != null)
                     {
-                        TransactionShares = Convert.ToUInt32(node_value.InnerText);
+                        TransactionShares = Convert.ToSingle(node_value.InnerText);
                     }
                 }
 
