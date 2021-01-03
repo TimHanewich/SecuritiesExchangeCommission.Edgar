@@ -6,6 +6,8 @@ using System.Xml;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
+using TimHanewich.Investing;
+using System.Collections.Generic;
 
 namespace testing
 {
@@ -13,30 +15,54 @@ namespace testing
     {
         static void Main(string[] args)
         {
-            // string content = System.IO.File.ReadAllText("C:\\Users\\tihanewi\\Downloads\\Form4\\bac.xml");
-            // StatementOfChangesInBeneficialOwnership form4 = StatementOfChangesInBeneficialOwnership.ParseXml(content);
-            // Console.WriteLine(JsonConvert.SerializeObject(form4));
-
+            Console.WriteLine("Getting sp500...");
+            string[] sp500 = InvestingToolkit.GetEquityGroupAsync(EquityGroup.SP500).Result;
 
             HttpClient hc = new HttpClient();
-            EdgarSearch es = EdgarSearch.CreateAsync("snap", "4", null, EdgarSearchOwnershipFilter.only).Result;
-            foreach (EdgarSearchResult esr in es.Results)
+
+            List<string> Failures = new List<string>();
+            int t = 1;
+            foreach (string s in sp500)
             {
-                if (esr.Filing == "4")
+                Console.Write("Tring " + s + " (" + t.ToString() + "/" + sp500.Length.ToString() + ")... ");
+                try
                 {
-                    FilingDocument[] docs = esr.GetDocumentFormatFilesAsync().Result;
-                    foreach (FilingDocument fd in docs)
+                    EdgarSearch es = EdgarSearch.CreateAsync(s, "4", null, EdgarSearchOwnershipFilter.only).Result;
+                    foreach (EdgarSearchResult esr in es.Results)
                     {
-                        if (fd.DocumentName.ToLower().Contains(".xml"))
+                        if (esr.Filing == "4")
                         {
-                            Console.WriteLine("Tryng to get " + fd.Url + " ...");
-                            HttpResponseMessage hrm = hc.GetAsync(fd.Url).Result;
-                            string content = hrm.Content.ReadAsStringAsync().Result;
-                            StatementOfChangesInBeneficialOwnership form4 = StatementOfChangesInBeneficialOwnership.ParseXml(content);
+                            FilingDocument[] docs = esr.GetDocumentFormatFilesAsync().Result;
+                            foreach (FilingDocument fd in docs)
+                            {
+                                if (fd.DocumentName.ToLower().Contains(".xml"))
+                                {
+                                    //Console.WriteLine("Tryng to get " + fd.Url + " ...");
+                                    HttpResponseMessage hrm = hc.GetAsync(fd.Url).Result;
+                                    string content = hrm.Content.ReadAsStringAsync().Result;
+                                    StatementOfChangesInBeneficialOwnership form4 = StatementOfChangesInBeneficialOwnership.ParseXml(content);
+                                }
+                            }
                         }
                     }
+                    Console.WriteLine("Success");
                 }
+                catch
+                {
+                    Failures.Add(s);
+                    Console.WriteLine("FAILURE!");
+                } 
+                t = t + 1;
             }
+
+            Console.WriteLine("DONE!");
+            Console.WriteLine("Failures:");
+            foreach (string s in Failures)
+            {
+                Console.WriteLine(s);
+            }
+            
+
 
         }
     }
