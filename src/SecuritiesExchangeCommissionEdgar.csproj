@@ -7,17 +7,22 @@
     <FileVersion>0.0.0.0</FileVersion>
     <Authors>Tim Hanewich</Authors>
     <Company>Tim Hanewich</Company>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>SecuritiesExchangeCommission.Edgar</PackageId>
     <Product>SecuritiesExchangeCommission.Edgar</Product>
     <Description>Library for accessing filings from the EDGAR databse of the Securities Exchange Commission.</Description>
     <PackageTags>sec,edgar,10k,10-k,10q,10-q</PackageTags>
-    <PackageReleaseNotes>v2 (May 6, 2020) - Added filing document access.</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <PackageIcon>SecLogo.png</PackageIcon>
     <RepositoryUrl>https://github.com/TimHanewich/SecuritiesExchangeCommission.Edgar</RepositoryUrl>
+    <PackageLicenseFile>license.md</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\license.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="SecLogo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
