@@ -6,7 +6,7 @@ namespace SecuritiesExchangeCommission.Edgar
     public class NonDerivativeEntry
     {
         public string SecurityTitle {get; set;}
-        public uint SharesOwnedFollowingTransaction {get; set;} //Post transaction amounts
+        public float SharesOwnedFollowingTransaction {get; set;} //Post transaction amounts
         public OwnershipNature DirectOrIndirectOwnership {get; set;} //Direct or indirect ownership
 
         public virtual void LoadFromNode(XmlNode node)
@@ -32,11 +32,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     if (node_value != null)
                     {
                         string node_val_str = node_value.InnerText;
-                        if (node_val_str.Contains("."))
-                        {
-                            node_val_str = node_val_str.Substring(0, node_val_str.IndexOf(".")-1);
-                        }
-                        SharesOwnedFollowingTransaction = Convert.ToUInt32(node_val_str);
+                        SharesOwnedFollowingTransaction = Convert.ToSingle(node_val_str);
                     }
                 }
 
