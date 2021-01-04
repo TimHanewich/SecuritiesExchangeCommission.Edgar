@@ -97,6 +97,27 @@ namespace SecuritiesExchangeCommission.Edgar
             return docs;
         }
 
+        public async Task<string> GetAccessionNumberAsync()
+        {
+            CheckDocumentUrlValid();
+
+            HttpClient hc = new HttpClient();
+            HttpResponseMessage hrm = await hc.GetAsync(DocumentsUrl);
+            string web = await hrm.Content.ReadAsStringAsync();
+
+            int loc1 = web.IndexOf("<div id=\"secNum\">");
+            if (loc1 == -1)
+            {
+                throw new Exception("Unable to locate the Accession Number. It may not exist!");
+            }
+            loc1 = web.IndexOf("</strong>", loc1 + 1);
+            loc1 = web.IndexOf(">", loc1 + 1);
+            int loc2 = web.IndexOf("<", loc1 + 1);
+            string acn = web.Substring(loc1 + 1, loc2 - loc1 - 1);
+            acn = acn.Trim();
+            return acn;
+        }
+
         private void CheckDocumentUrlValid()
         {
             //Check for invalid document URL
