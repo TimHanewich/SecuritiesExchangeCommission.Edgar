@@ -135,5 +135,40 @@ namespace SecuritiesExchangeCommission.Edgar
                 }
             }
         }
+    
+        public bool IsTransaction()
+        {
+            //If any of the transaction values are NOT null, it is a transaction
+            
+            bool ToReturn = false;
+
+            if (TransactionDate.HasValue)
+            {
+                ToReturn = true;
+            }
+            else if (TransactionCode.HasValue)
+            {
+                ToReturn = true;
+            }
+            else if (TransactionQuantity.HasValue)
+            {
+                ToReturn = true;
+            }
+            else if (TransactionPricePerSecurity.HasValue)
+            {
+                ToReturn = true;
+            }
+            else if (AcquiredOrDisposed.HasValue)
+            {
+                ToReturn = true;
+            }
+
+            return ToReturn;
+        }
+    
+        public bool IsHolding()
+        {
+            return !IsTransaction();
+        }
     }
 }
