@@ -3,9 +3,8 @@ using System.Xml;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
-    public class DerivativeTransaction
+    public class DerivativeTransaction : SecurityEntry
     {
-        public string DerivativeSecurityTitle {get; set;}
         public DateTime TransactionDate {get; set;}
         public TransactionType TransactionCode {get; set;}
         public float Quantity {get; set;}
@@ -15,10 +14,8 @@ namespace SecuritiesExchangeCommission.Edgar
         public string UnderlyingSecurityTitle {get; set;}
         public float UnderlyingSecurityShares {get; set;}
         public float DerivativeSecurityPricePerShare {get; set;}
-        public float DerivativeSecuritiesOwnedFollowingTransaction {get; set;}
-        public OwnershipNature DirectOrIndirectOwnership {get; set;}
 
-        public void LoadFromNode(XmlNode node)
+        public override void LoadFromNode(XmlNode node)
         {
             //Security title
             XmlNode node_securityTitle = node.SelectSingleNode("securityTitle");
@@ -27,7 +24,7 @@ namespace SecuritiesExchangeCommission.Edgar
                 XmlNode node_value = node_securityTitle.SelectSingleNode("value");
                 if (node_value != null)
                 {
-                    DerivativeSecurityTitle = node_value.InnerText;
+                    SecurityTitle = node_value.InnerText;
                 }
             }
 
@@ -178,7 +175,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     XmlNode node_value = node_sharesOwnedFollowingTransaction.SelectSingleNode("value");
                     if (node_value != null)
                     {
-                        DerivativeSecuritiesOwnedFollowingTransaction = Convert.ToSingle(node_value.InnerText);
+                        SecuritiesOwnedFollowingTransaction = Convert.ToSingle(node_value.InnerText);
                     }
                 }
             }
