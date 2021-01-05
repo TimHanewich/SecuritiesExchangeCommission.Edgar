@@ -15,6 +15,11 @@ namespace testing
     {
         static void Main(string[] args)
         {
+            IndividualTest(args);
+        }
+
+        public static void FullSp500Test()
+        {
             Console.WriteLine("Getting sp500...");
             string[] sp500 = InvestingToolkit.GetEquityGroupAsync(EquityGroup.SP500).Result;
 
@@ -61,9 +66,13 @@ namespace testing
             {
                 Console.WriteLine(s);
             }
-            
-
-
         }
+    
+        public static void IndividualTest(string[] args)
+        {
+            StatementOfChangesInBeneficialOwnership form4 = StatementOfChangesInBeneficialOwnership.ParseXmlFromWebUrlAsync(args[0]).Result;
+            Console.WriteLine(JsonConvert.SerializeObject(form4));
+        }
+
     }
 }
