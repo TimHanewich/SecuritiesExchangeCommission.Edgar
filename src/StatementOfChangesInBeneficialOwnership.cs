@@ -1,6 +1,8 @@
 using System;
 using System.Xml;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
@@ -174,6 +176,15 @@ namespace SecuritiesExchangeCommission.Edgar
 
             #endregion
 
+            return ToReturn;
+        }
+
+        public static async Task<StatementOfChangesInBeneficialOwnership> ParseXmlFromWebUrlAsync(string url)
+        {
+            HttpClient hc = new HttpClient();
+            HttpResponseMessage hrm = await hc.GetAsync(url);
+            string content = await hrm.Content.ReadAsStringAsync();
+            StatementOfChangesInBeneficialOwnership ToReturn = StatementOfChangesInBeneficialOwnership.ParseXml(content);
             return ToReturn;
         }
 
