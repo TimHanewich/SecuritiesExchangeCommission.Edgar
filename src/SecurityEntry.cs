@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
-    public class NonDerivativeEntry
+    public class SecurityEntry
     {
         public string SecurityTitle {get; set;}
         public float SecuritiesOwnedFollowingTransaction {get; set;} //Post transaction amounts

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
-    public class NonDerivativeTransaction : NonDerivativeEntry
+    public class NonDerivativeTransaction : SecurityEntry
     {
         public DateTime TransactionDate {get; set;}
         public TransactionType TransactionCode {get; set;}
