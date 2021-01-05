@@ -5,6 +5,7 @@ namespace SecuritiesExchangeCommission.Edgar
 {
     public class DerivativeTransaction : SecurityTransaction
     {
+        public float? ConversionOrExcercisePrice {get; set;} //This should technically always be here but sometimes it is put in the footnotes as an explanation, not a date time value. So it is null if it isn't directly put in as a datetime value.
         public DateTime? Excersisable {get; set;} //This should technically always be here but sometimes it is put in the footnotes as an explanation, not a date time value. So it is null if it isn't directly put in as a datetime value.
         public DateTime? Expiration {get; set;} //This should technically always be here but sometimes it is put in the footnotes as an explanation, not a date time value. So it is null if it isn't directly put in as a datetime value.
         public string UnderlyingSecurityTitle {get; set;} //Will be there whether regardless of it being a transaction or holding
@@ -14,6 +15,21 @@ namespace SecuritiesExchangeCommission.Edgar
         {
             //Load the base
             base.LoadFromNode(node);
+
+            //Get conversion or excercise price
+            XmlNode node_conversionOrExercisePrice = node.SelectSingleNode("conversionOrExercisePrice");
+            if (node_conversionOrExercisePrice != null)
+            {
+                XmlNode node_value = node_conversionOrExercisePrice.SelectSingleNode("value");
+                if (node_value != null)
+                {
+                    ConversionOrExcercisePrice = Convert.ToSingle(node_value.InnerText);
+                }
+            }
+            else
+            {
+                ConversionOrExcercisePrice = null;
+            }
 
             //Date excercisable, expiration date
             XmlNode node_excersizeDate = node.SelectSingleNode("exerciseDate");
