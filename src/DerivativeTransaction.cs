@@ -5,8 +5,8 @@ namespace SecuritiesExchangeCommission.Edgar
 {
     public class DerivativeTransaction : SecurityTransaction
     {
-        public DateTime? Excersisable {get; set;} //Will only be populated if it is a derivative transaction. Null if a derivative holding.
-        public DateTime? Expiration {get; set;} //Will only be populated if it is a derivative transaction. Null if a derivative holding.
+        public DateTime? Excersisable {get; set;} //This should technically always be here but sometimes it is put in the footnotes as an explanation, not a date time value. So it is null if it isn't directly put in as a datetime value.
+        public DateTime? Expiration {get; set;} //This should technically always be here but sometimes it is put in the footnotes as an explanation, not a date time value. So it is null if it isn't directly put in as a datetime value.
         public string UnderlyingSecurityTitle {get; set;} //Will be there whether regardless of it being a transaction or holding
         public float UnderlyingSecurityQuantity {get; set;} //Will be there whether regardless of it being a transaction or holding
 
