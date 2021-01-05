@@ -28,7 +28,6 @@ namespace SecuritiesExchangeCommission.Edgar
 
         //Non derivative table (transactions and holdings)
         public NonDerivativeTransaction[] NonDerivativeTransactions {get; set;}
-        public NonDerivativeHolding[] NonDerivativeHoldings {get; set;}
 
         //Derivative transactions
         public DerivativeTransaction[] DerivativeTransactions {get; set;}
@@ -147,24 +146,13 @@ namespace SecuritiesExchangeCommission.Edgar
             if (node_nonDerivativeTable != null)
             {
                 List<NonDerivativeTransaction> transactions = new List<NonDerivativeTransaction>();
-                List<NonDerivativeHolding> holdings = new List<NonDerivativeHolding>();
                 foreach (XmlNode node_nonDerivativeEntry in node_nonDerivativeTable.ChildNodes)
                 {
-                    if (node_nonDerivativeEntry.Name == "nonDerivativeTransaction") //If it is a transaction (most common)
-                    {
-                        NonDerivativeTransaction ndt = new NonDerivativeTransaction();
-                        ndt.LoadFromNode(node_nonDerivativeEntry);
-                        transactions.Add(ndt);
-                    }
-                    else if (node_nonDerivativeEntry.Name == "nonDerivativeHolding") //It is a holding
-                    {
-                        NonDerivativeHolding nde = new NonDerivativeHolding();
-                        nde.LoadFromNode(node_nonDerivativeEntry);
-                        holdings.Add(nde);
-                    }   
+                    NonDerivativeTransaction ndt = new NonDerivativeTransaction();
+                    ndt.LoadFromNode(node_nonDerivativeEntry);
+                    transactions.Add(ndt);
                 }
                 ToReturn.NonDerivativeTransactions = transactions.ToArray();
-                ToReturn.NonDerivativeHoldings = holdings.ToArray();
             }
 
             #endregion

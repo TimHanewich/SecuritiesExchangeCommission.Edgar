@@ -5,93 +5,15 @@ namespace SecuritiesExchangeCommission.Edgar
 {
     public class DerivativeTransaction : SecurityTransaction
     {
-        public DateTime? Excersisable {get; set;}
-        public DateTime? Expiration {get; set;}
-        public string UnderlyingSecurityTitle {get; set;}
-        public float UnderlyingSecurityQuantity {get; set;}
+        public DateTime? Excersisable {get; set;} //Will only be populated if it is a derivative transaction. Null if a derivative holding.
+        public DateTime? Expiration {get; set;} //Will only be populated if it is a derivative transaction. Null if a derivative holding.
+        public string UnderlyingSecurityTitle {get; set;} //Will be there whether regardless of it being a transaction or holding
+        public float UnderlyingSecurityQuantity {get; set;} //Will be there whether regardless of it being a transaction or holding
 
         public override void LoadFromNode(XmlNode node)
         {
-            //Security title
-            XmlNode node_securityTitle = node.SelectSingleNode("securityTitle");
-            if (node_securityTitle != null)
-            {
-                XmlNode node_value = node_securityTitle.SelectSingleNode("value");
-                if (node_value != null)
-                {
-                    SecurityTitle = node_value.InnerText;
-                }
-            }
-
-            //Transaction Date
-            XmlNode node_transactionDate = node.SelectSingleNode("transactionDate");
-            if (node_transactionDate != null)
-            {
-                XmlNode node_value = node_transactionDate.SelectSingleNode("value");
-                if (node_value != null)
-                {
-                    TransactionDate = DateTime.Parse(node_value.InnerText);
-                }
-            }
-
-            //Transaction Code
-            XmlNode node_transactionCoding = node.SelectSingleNode("transactionCoding");
-            if (node_transactionCoding != null)
-            {
-                XmlNode node_transactionCode = node_transactionCoding.SelectSingleNode("transactionCode");
-                if (node_transactionCode != null)
-                {
-                    string tc = node_transactionCode.InnerText;
-                    TransactionCode = StatementOfChangesInBeneficialOwnership.TransactionTypeFromCode(tc);
-                }
-            }
-
-            //transactionAmounts node (# of shares, acquired or disposed of)
-            XmlNode node_transactionAmounts = node.SelectSingleNode("transactionAmounts");
-            if (node_transactionAmounts != null)
-            {
-                //# of shares
-                XmlNode node_transactionShares = node_transactionAmounts.SelectSingleNode("transactionShares");
-                if (node_transactionShares != null)
-                {
-                    XmlNode node_value = node_transactionShares.SelectSingleNode("value");
-                    if (node_value != null)
-                    {
-                        string quantity_str = node_value.InnerText;
-                        Quantity = Convert.ToSingle(quantity_str);
-                    }
-                }
-
-                //Acquired or disposed of
-                XmlNode node_transactionAcquiredDisposedCode = node_transactionAmounts.SelectSingleNode("transactionAcquiredDisposedCode");
-                if (node_transactionAcquiredDisposedCode != null)
-                {
-                    XmlNode node_value = node_transactionAcquiredDisposedCode.SelectSingleNode("value");
-                    if (node_value != null)
-                    {
-                        string adcode = node_value.InnerText.ToLower();
-                        if (adcode == "a")
-                        {
-                            AcquiredOrDisposed = AcquiredDisposed.Acquired;
-                        }
-                        else if (adcode == "d")
-                        {
-                            AcquiredOrDisposed = AcquiredDisposed.Disposed;
-                        }
-                    }
-                }
-            
-                //price per share (derivative price)
-                XmlNode node_transactionPricePerShare = node_transactionAmounts.SelectSingleNode("transactionPricePerShare");
-                if (node_transactionPricePerShare != null)
-                {
-                    XmlNode node_value = node_transactionPricePerShare.SelectSingleNode("value");
-                    if (node_value != null)
-                    {
-                        PricePerSecurity = Convert.ToSingle(node_value.InnerText);
-                    }
-                }
-            }
+            //Load the base
+            base.LoadFromNode(node);
 
             //Date excercisable, expiration date
             XmlNode node_excersizeDate = node.SelectSingleNode("exerciseDate");
@@ -159,44 +81,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     }
                 }
             }
-
-            //Shares owned following transaction
-            XmlNode node_postTransactionAmonts = node.SelectSingleNode("postTransactionAmounts");
-            if (node_postTransactionAmonts != null)
-            {
-                XmlNode node_sharesOwnedFollowingTransaction = node_postTransactionAmonts.SelectSingleNode("sharesOwnedFollowingTransaction");
-                if (node_sharesOwnedFollowingTransaction != null)
-                {
-                    XmlNode node_value = node_sharesOwnedFollowingTransaction.SelectSingleNode("value");
-                    if (node_value != null)
-                    {
-                        SecuritiesOwnedFollowingTransaction = Convert.ToSingle(node_value.InnerText);
-                    }
-                }
-            }
         
-            //Direct or indirect ownership
-            XmlNode node_ownershipNature = node.SelectSingleNode("ownershipNature");
-            if (node_ownershipNature != null)
-            {
-                XmlNode node_directOrIndirectOwnership = node_ownershipNature.SelectSingleNode("directOrIndirectOwnership");
-                if (node_directOrIndirectOwnership != null)
-                {
-                    XmlNode node_value = node_directOrIndirectOwnership.SelectSingleNode("value");
-                    if (node_value != null)
-                    {
-                        string diocode = node_value.InnerText.ToLower();
-                        if (diocode == "d")
-                        {
-                            DirectOrIndirectOwnership = OwnershipNature.Direct;
-                        }
-                        else
-                        {
-                            DirectOrIndirectOwnership = OwnershipNature.Indirect;
-                        }
-                    }
-                }
-            }
         }
     }
 }
