@@ -3,17 +3,12 @@ using System.Xml;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
-    public class DerivativeTransaction : SecurityEntry
+    public class DerivativeTransaction : SecurityTransaction
     {
-        public DateTime TransactionDate {get; set;}
-        public TransactionType TransactionCode {get; set;}
-        public float Quantity {get; set;}
-        public AcquiredDisposed AcquiredOrDisposed {get; set;}
         public DateTime? Excersisable {get; set;}
         public DateTime? Expiration {get; set;}
         public string UnderlyingSecurityTitle {get; set;}
-        public float UnderlyingSecurityShares {get; set;}
-        public float DerivativeSecurityPricePerShare {get; set;}
+        public float UnderlyingSecurityQuantity {get; set;}
 
         public override void LoadFromNode(XmlNode node)
         {
@@ -93,7 +88,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     XmlNode node_value = node_transactionPricePerShare.SelectSingleNode("value");
                     if (node_value != null)
                     {
-                        DerivativeSecurityPricePerShare = Convert.ToSingle(node_value.InnerText);
+                        PricePerSecurity = Convert.ToSingle(node_value.InnerText);
                     }
                 }
             }
@@ -160,7 +155,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     XmlNode node_value = node_underlyingSecurityShares.SelectSingleNode("value");
                     if (node_value != null)
                     {
-                        UnderlyingSecurityShares = Convert.ToSingle(node_value.InnerText);
+                        UnderlyingSecurityQuantity = Convert.ToSingle(node_value.InnerText);
                     }
                 }
             }
