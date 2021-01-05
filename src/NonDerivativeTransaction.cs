@@ -4,14 +4,8 @@ using System.Collections.Generic;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
-    public class NonDerivativeTransaction : SecurityEntry
+    public class NonDerivativeTransaction : SecurityTransaction
     {
-        public DateTime TransactionDate {get; set;}
-        public TransactionType TransactionCode {get; set;}
-        public float TransactionShares {get; set;}
-        public float PricePerShare {get; set;}
-        public AcquiredDisposed AcquiredOrDisposed {get; set;}
-
         public override void LoadFromNode(XmlNode node)
         {
             //Load the data from the sub-class
@@ -51,7 +45,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     XmlNode node_value = node_transactionShares.SelectSingleNode("value");
                     if (node_value != null)
                     {
-                        TransactionShares = Convert.ToSingle(node_value.InnerText);
+                        Quantity = Convert.ToSingle(node_value.InnerText);
                     }
                 }
 
@@ -62,7 +56,7 @@ namespace SecuritiesExchangeCommission.Edgar
                     XmlNode node_value = node_transactionPricePerShare.SelectSingleNode("value");
                     if (node_value != null)
                     {
-                        PricePerShare = Convert.ToSingle(node_value.InnerText);
+                        PricePerSecurity = Convert.ToSingle(node_value.InnerText);
                     }
                 }
 
