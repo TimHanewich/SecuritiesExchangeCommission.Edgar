@@ -11,10 +11,25 @@ namespace SecuritiesExchangeCommission.Edgar
     {
         public EdgarSearchResult[] Results { get; set; }
 
+        //The values that were searched for
+        private string StockSymbol;
+        private string FilingType;
+        private EdgarSearchOwnershipFilter OwnershipFilter;
+        private EdgarSearchResultsPerPage ResultsPerPage;
+
         public static async Task<EdgarSearch> CreateAsync(string stock_symbol, string filing_type = "", DateTime? prior_to = null, EdgarSearchOwnershipFilter ownership_filter = EdgarSearchOwnershipFilter.exclude, EdgarSearchResultsPerPage results_per_page = EdgarSearchResultsPerPage.Entries40)
         {
 
             EdgarSearch es = new EdgarSearch();
+
+            #region "Save search parameters"
+
+            es.StockSymbol = stock_symbol;
+            es.FilingType = filing_type;
+            es.OwnershipFilter = ownership_filter;
+            es.ResultsPerPage = results_per_page;
+
+            #endregion
 
             #region "Construct the query URL"
 
@@ -171,6 +186,31 @@ namespace SecuritiesExchangeCommission.Edgar
                 }
             }
             throw new Exception("Unable to find result of filing type '" + filing + "' in the search results.");
+        }
+    
+        public async Task<EdgarSearch> NextPageAsync()
+        {
+            #region "Error checking"
+
+            if (Results == null || Results.Length == 0)
+            {
+                throw new Exception("There were no search results to get a second page of.");
+            }
+
+            #endregion
+
+            //Find the oldest search results
+            DateTime OldestSearchResult = Results[0].FilingDate;
+            foreach (EdgarSearchResult esr in Results)
+            {
+                if (esr.FilingDate < OldestSearchResult)
+                {
+                    OldestSearchResult = esr.FilingDate;
+                }
+            }
+
+            EdgarSearch es = await EdgarSearch.CreateAsync(StockSymbol, FilingType, OldestSearchResult.AddDays(-1), OwnershipFilter, ResultsPerPage);
+            return es;
         }
     }
 }
