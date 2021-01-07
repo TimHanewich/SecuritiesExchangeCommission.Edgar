@@ -15,7 +15,7 @@ namespace testing
     {
         static void Main(string[] args)
         {
-            IndividualTest(args);
+            GatherAll(args);
         }
 
         public static void FullSp500Test()
@@ -72,6 +72,44 @@ namespace testing
         {
             StatementOfChangesInBeneficialOwnership form4 = StatementOfChangesInBeneficialOwnership.ParseXmlFromWebUrlAsync(args[0]).Result;
             Console.WriteLine(JsonConvert.SerializeObject(form4));
+        }
+
+        public static void MiscTest()
+        {
+            HttpClient hc = new HttpClient();
+            HttpResponseMessage hrm = hc.GetAsync("https://www.sec.gov/cgi-bin/browse-edgar?company=&CIK=&type=10-K&owner=include&count=40&action=getcurrent").Result;
+            string content = hrm.Content.ReadAsStringAsync().Result;
+            System.IO.File.WriteAllText("C:\\Users\\tihanewi\\Downloads\\WEB2.txt", content);
+        }
+
+        public static void GatherAll(string[] args)
+        {
+            List<EdgarSearchResult> RESULTS = new List<EdgarSearchResult>();
+            bool Kill = false;
+            EdgarSearch es = EdgarSearch.CreateAsync(args[0], "4", null, EdgarSearchOwnershipFilter.only).Result;
+            while (Kill == false)
+            {
+                Console.WriteLine("Adding...");
+                foreach (EdgarSearchResult esr in es.Results)
+                {
+                    RESULTS.Add(esr);
+                }
+                
+                //Paging
+                Console.Write("Getting next page... ");
+                es = es.NextPageAsync().Result;
+                if (es.Results.Length == 0)
+                {
+                    Console.WriteLine("ITS OVER!");
+                    Kill = true;
+                }
+                else
+                {
+                    Console.WriteLine("Got it");
+                }
+            }
+
+            Console.WriteLine("Got all of them: " + RESULTS.Count.ToString());
         }
 
     }
