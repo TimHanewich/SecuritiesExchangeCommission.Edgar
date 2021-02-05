@@ -8,7 +8,7 @@ namespace SecuritiesExchangeCommission.Edgar
 {
     public class EdgarLatestFilingsSearch
     {
-        public EdgarSearchResult[] Results {get; set;}
+        public EdgarLatestFilingResult[] Results {get; set;}
 
         public static async Task<EdgarLatestFilingsSearch> SearchAsync(string form_type = null, EdgarSearchOwnershipFilter ownership_filter = EdgarSearchOwnershipFilter.include, EdgarSearchResultsPerPage results_per_page = EdgarSearchResultsPerPage.Entries40)
         {
@@ -70,7 +70,7 @@ namespace SecuritiesExchangeCommission.Edgar
             HttpResponseMessage hrm = await hc.GetAsync(search_url);
             string content = await hrm.Content.ReadAsStringAsync();
 
-            List<EdgarSearchResult> searchResults = new List<EdgarSearchResult>();
+            List<EdgarLatestFilingResult> searchResults = new List<EdgarLatestFilingResult>();
 
             //Is it no matching? If so, return an empty array
             if (content.ToLower().Contains("no matching filings"))
@@ -89,13 +89,13 @@ namespace SecuritiesExchangeCommission.Edgar
             string table_data = content.Substring(loc1, loc2 - loc1);
 
             //Split into rows
-            List<EdgarSearchResult> ESRs = new List<EdgarSearchResult>();
+            List<EdgarLatestFilingResult> ESRs = new List<EdgarLatestFilingResult>();
             Splitter.Clear();
             Splitter.Add("<tr nowrap");
             string[] rows_data = table_data.Split(Splitter.ToArray(), StringSplitOptions.None);
             for (int t = 1; t < rows_data.Length; t++)
             {
-                EdgarSearchResult esr = new EdgarSearchResult();
+                EdgarLatestFilingResult esr = new EdgarLatestFilingResult();
                 string rowdata = rows_data[t];
                 
                 //Split into columns
