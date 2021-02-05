@@ -7,13 +7,9 @@ using System.Collections.Generic;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
-    public class EdgarSearchResult
+    public class EdgarSearchResult : EdgarFiling
     {
-        public string Filing { get; set; }
-        public string DocumentsUrl { get; set; }
         public string InteractiveDataUrl { get; set; }
-        public string Description { get; set; }
-        public DateTime FilingDate { get; set; }
 
         public async Task<Stream> DownloadXbrlDocumentAsync()
         {
