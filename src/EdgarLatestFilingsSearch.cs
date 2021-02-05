@@ -88,6 +88,23 @@ namespace SecuritiesExchangeCommission.Edgar
             loc2 = content.IndexOf("</table>", loc1 + 1);
             string table_data = content.Substring(loc1, loc2 - loc1);
 
+            //Get a list of all the rows with the titles
+            Splitter.Clear();
+            Splitter.Add("<tr>");
+            string[] rows_data_titles = table_data.Split(Splitter.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+            List<string> Titles = new List<string>();
+            foreach (string s in rows_data_titles)
+            {
+                loc1 = s.IndexOf("<td bg");
+                loc1 = s.IndexOf("href", loc1 + 1);
+                loc1 = s.IndexOf(">", loc1 + 1);
+                loc2 = s.IndexOf("<", loc1 + 1);
+                string thistitle = s.Substring(loc1 + 1, loc2 - loc1 - 1);
+                Titles.Add(thistitle);
+            }
+            Titles.RemoveAt(0); //Remove the first one because that is blank.
+            
+
             //Split into rows
             List<EdgarLatestFilingResult> ESRs = new List<EdgarLatestFilingResult>();
             Splitter.Clear();
@@ -97,7 +114,25 @@ namespace SecuritiesExchangeCommission.Edgar
             {
                 EdgarLatestFilingResult esr = new EdgarLatestFilingResult();
                 string rowdata = rows_data[t];
-                
+
+                //Get the entity name and CIK from this title
+                string thistitle = Titles[t-1]; //-1 because this loop starts at 1 and the titles are clean (every one is legitimate)
+                loc1 = thistitle.IndexOf("(");
+                string this_ent_title = thistitle.Substring(0, loc1 - 1).Trim();
+                esr.EntityTitle = this_ent_title;
+
+                //Get the CIK
+                loc2 = thistitle.IndexOf(")", loc1 + 1);
+                string this_cik = thistitle.Substring(loc1 + 1, loc2 - loc1 - 1).Trim();
+                try
+                {
+                    esr.EntityCik = Convert.ToInt32(this_cik);
+                }
+                catch
+                {
+                    esr.EntityCik = 0;
+                }
+                        
                 //Split into columns
                 Splitter.Clear();
                 Splitter.Add("<td");
