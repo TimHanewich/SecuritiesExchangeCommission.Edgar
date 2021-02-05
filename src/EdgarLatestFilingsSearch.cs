@@ -151,6 +151,14 @@ namespace SecuritiesExchangeCommission.Edgar
                 documentsURL = "https://www.sec.gov" + documentsURL;
                 esr.DocumentsUrl = documentsURL;
 
+                //Description (index 3, column 3)
+                loc1 = columns_data[3].IndexOf(">");
+                loc2 = columns_data[3].IndexOf("</td");
+                string desc = columns_data[3].Substring(loc1 + 1, loc2 - loc1 - 1);
+                desc = desc.Replace("<br>", " ");
+                desc = desc.Replace("&nbsp;", " ");
+                esr.Description = desc;
+
                 //Filing date (index 5)
                 loc1 = columns_data[5].IndexOf(">");
                 loc2 = columns_data[5].IndexOf("<", loc1 + 1);
