@@ -46,7 +46,14 @@ namespace SecuritiesExchangeCommission.Edgar
             XmlNode doc_data = doc.SelectSingleNode("ownershipDocument");
 
             //Get schema version
-            ToReturn.SchemaVersion = doc_data.SelectSingleNode("schemaVersion").InnerText;
+            if (doc_data.SelectSingleNode("schemaVersion") != null)
+            {
+                ToReturn.SchemaVersion = doc_data.SelectSingleNode("schemaVersion").InnerText;
+            }
+            else
+            {
+                ToReturn.SchemaVersion = null;
+            }
             
             //Get period of report
             ToReturn.PeriodOfReport = DateTime.Parse(doc_data.SelectSingleNode("periodOfReport").InnerText);
