@@ -28,7 +28,6 @@ namespace SecuritiesExchangeCommission.Edgar
             XmlNode node_postTransactionAmounts = node.SelectSingleNode("postTransactionAmounts");
             if (node_postTransactionAmounts != null)
             {
-
                 //Shares owned following transaction
                 XmlNode node_sharesOwnedFollowingTransaction = node_postTransactionAmounts.SelectSingleNode("sharesOwnedFollowingTransaction");
                 if (node_sharesOwnedFollowingTransaction != null)
@@ -42,7 +41,7 @@ namespace SecuritiesExchangeCommission.Edgar
                 }
 
                 //Direct or indirect ownership
-                XmlNode node_ownershipNature = node_postTransactionAmounts.SelectSingleNode("ownershipNature");
+                XmlNode node_ownershipNature = node.SelectSingleNode("ownershipNature");
                 if (node_ownershipNature != null)
                 {
                     XmlNode node_directOrIndirectOwnership = node_ownershipNature.SelectSingleNode("directOrIndirectOwnership");

@@ -11,6 +11,7 @@ namespace SecuritiesExchangeCommission.Edgar
         //Document data
         public string SchemaVersion {get; set;}
         public DateTime PeriodOfReport {get; set;}
+        public string DocumentType {get; set;} //i.e. 3, 4, 5
 
         //About the issuer (the company)
         public string IssuerCik {get; set;}
@@ -58,6 +59,17 @@ namespace SecuritiesExchangeCommission.Edgar
             //Get period of report
             ToReturn.PeriodOfReport = DateTime.Parse(doc_data.SelectSingleNode("periodOfReport").InnerText);
             
+            //documentType
+            XmlNode node_documentType = doc_data.SelectSingleNode("documentType");
+            if (node_documentType != null)
+            {
+                ToReturn.DocumentType = node_documentType.InnerText.Trim();
+            }
+            else
+            {
+                ToReturn.DocumentType = null;
+            }
+
             #region "Issuer"
 
             XmlNode issuer = doc_data.SelectSingleNode("issuer");
