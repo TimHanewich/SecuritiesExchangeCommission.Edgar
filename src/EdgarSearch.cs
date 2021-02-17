@@ -17,6 +17,103 @@ namespace SecuritiesExchangeCommission.Edgar
         private EdgarSearchOwnershipFilter OwnershipFilter;
         private EdgarSearchResultsPerPage ResultsPerPage;
 
+        //The next search link
+        private string NextPageUrl;
+
+        private void ParseFromWebHtml(string web)
+        {
+            //Error checking
+            if (web.Contains("No matching Ticker Symbol."))
+            {
+                throw new Exception("No matching Ticker Symbol.");
+            }
+
+            int loc1 = 0;
+            int loc2 = 0;
+            List<string> Splitter = new List<string>();
+
+            //Parse into search results
+            List<EdgarSearchResult> FilingResults = new List<EdgarSearchResult>();
+            loc1 = web.IndexOf("tableFile2");
+            loc2 = web.IndexOf("</table>", loc1 + 1);
+            string resulttable = web.Substring(loc1, loc2 - loc1);
+            Splitter.Clear();
+            Splitter.Add("<tr");
+            string[] rows = resulttable.Split(Splitter.ToArray(), StringSplitOptions.None);
+            int t = 0;
+            for (t = 2; t < rows.Length; t++)
+            {
+
+                //Split to columns
+                Splitter.Clear();
+                Splitter.Add("<td");
+                string[] cols = rows[t].Split(Splitter.ToArray(), StringSplitOptions.None);
+
+                //If this is actually a result
+                if (cols.Length > 0)
+                {
+                    EdgarSearchResult esr = new EdgarSearchResult();
+
+                    //Filing
+                    loc1 = cols[1].IndexOf(">");
+                    loc2 = cols[1].IndexOf("<", loc1 + 1);
+                    esr.Filing = cols[1].Substring(loc1 + 1, loc2 - loc1 - 1);
+
+                    //Documents Button URL's
+                    loc1 = cols[2].IndexOf("documentsbutton");
+                    if (loc1 != -1)
+                    {
+                        loc1 = cols[2].LastIndexOf("href", loc1);
+                        loc1 = cols[2].IndexOf("\"", loc1 + 1);
+                        loc2 = cols[2].IndexOf("\"", loc1 + 1);
+                        esr.DocumentsUrl = "https://www.sec.gov" + cols[2].Substring(loc1 + 1, loc2 - loc1 - 1);
+                    }
+
+                    //Interactive Content Button URL's
+                    loc1 = cols[2].IndexOf("interactiveDataBtn");
+                    if (loc1 != -1)
+                    {
+                        loc1 = cols[2].LastIndexOf("href", loc1);
+                        loc1 = cols[2].IndexOf("\"", loc1 + 1);
+                        loc2 = cols[2].IndexOf("\"", loc1 + 1);
+                        esr.InteractiveDataUrl = "https://www.sec.gov" + cols[2].Substring(loc1 + 1, loc2 - loc1 - 1);
+                        esr.InteractiveDataUrl = esr.InteractiveDataUrl.Replace("&amp;", "&");
+                    }
+
+                    //Get description
+                    loc1 = cols[3].IndexOf(">");
+                    loc2 = cols[3].IndexOf("</td");
+                    esr.Description = cols[3].Substring(loc1 + 1, loc2 - loc1 - 1);
+
+                    //Get filing date
+                    loc1 = cols[4].IndexOf(">");
+                    loc2 = cols[4].IndexOf("<", loc1 + 1);
+                    esr.FilingDate = DateTime.Parse(cols[4].Substring(loc1 + 1, loc2 - loc1 - 1));
+
+                    FilingResults.Add(esr);
+                }
+            }
+            Results = FilingResults.ToArray();
+        
+            //Get the next button if it exists
+            string search_for = "<input type=\"button\" value=\"Next ";
+            loc1 = web.IndexOf(search_for);
+            if (loc1 != -1)
+            {
+                loc1 = web.IndexOf(".location", loc1 + 1);
+                loc1 = web.IndexOf("'", loc1 + 1);
+                loc2 = web.IndexOf("'", loc1 + 1);
+                string nexturl = web.Substring(loc1 + 1, loc2 - loc1 - 1);
+                nexturl = "https://www.sec.gov" + nexturl;
+                NextPageUrl = nexturl;
+            }
+            else
+            {
+                NextPageUrl = null;
+            }
+        
+        }
+
         public static async Task<EdgarSearch> CreateAsync(string stock_symbol, string filing_type = "", DateTime? prior_to = null, EdgarSearchOwnershipFilter ownership_filter = EdgarSearchOwnershipFilter.exclude, EdgarSearchResultsPerPage results_per_page = EdgarSearchResultsPerPage.Entries40)
         {
 
@@ -93,87 +190,9 @@ namespace SecuritiesExchangeCommission.Edgar
             HttpResponseMessage hrm = await hc.GetAsync(URL);
             string web = await hrm.Content.ReadAsStringAsync();
 
-            //Error checking
-            if (web.Contains("No matching Ticker Symbol."))
-            {
-                throw new Exception("No matching Ticker Symbol.");
-            }
-
-            int loc1 = 0;
-            int loc2 = 0;
-            List<string> Splitter = new List<string>();
-
-            //Parse into search results
-
-            List<EdgarSearchResult> Results = new List<EdgarSearchResult>();
-            loc1 = web.IndexOf("tableFile2");
-            loc2 = web.IndexOf("</table>", loc1 + 1);
-            string resulttable = web.Substring(loc1, loc2 - loc1);
-            Splitter.Clear();
-            Splitter.Add("<tr");
-            string[] rows = resulttable.Split(Splitter.ToArray(), StringSplitOptions.None);
-            int t = 0;
-            for (t = 2; t < rows.Length; t++)
-            {
-
-                //Split to columns
-                Splitter.Clear();
-                Splitter.Add("<td");
-                string[] cols = rows[t].Split(Splitter.ToArray(), StringSplitOptions.None);
-
-                //If this is actually a result
-                if (cols.Length > 0)
-                {
-                    EdgarSearchResult esr = new EdgarSearchResult();
-
-                    //Filing
-                    loc1 = cols[1].IndexOf(">");
-                    loc2 = cols[1].IndexOf("<", loc1 + 1);
-                    esr.Filing = cols[1].Substring(loc1 + 1, loc2 - loc1 - 1);
-
-                    //Documents Button URL's
-                    loc1 = cols[2].IndexOf("documentsbutton");
-                    if (loc1 != -1)
-                    {
-                        loc1 = cols[2].LastIndexOf("href", loc1);
-                        loc1 = cols[2].IndexOf("\"", loc1 + 1);
-                        loc2 = cols[2].IndexOf("\"", loc1 + 1);
-                        esr.DocumentsUrl = "https://www.sec.gov" + cols[2].Substring(loc1 + 1, loc2 - loc1 - 1);
-                    }
-
-                    //Interactive Content Button URL's
-                    loc1 = cols[2].IndexOf("interactiveDataBtn");
-                    if (loc1 != -1)
-                    {
-                        loc1 = cols[2].LastIndexOf("href", loc1);
-                        loc1 = cols[2].IndexOf("\"", loc1 + 1);
-                        loc2 = cols[2].IndexOf("\"", loc1 + 1);
-                        esr.InteractiveDataUrl = "https://www.sec.gov" + cols[2].Substring(loc1 + 1, loc2 - loc1 - 1);
-                        esr.InteractiveDataUrl = esr.InteractiveDataUrl.Replace("&amp;", "&");
-                    }
-
-                    //Get description
-                    loc1 = cols[3].IndexOf(">");
-                    loc2 = cols[3].IndexOf("</td");
-                    esr.Description = cols[3].Substring(loc1 + 1, loc2 - loc1 - 1);
-
-                    //Get filing date
-                    loc1 = cols[4].IndexOf(">");
-                    loc2 = cols[4].IndexOf("<", loc1 + 1);
-                    esr.FilingDate = DateTime.Parse(cols[4].Substring(loc1 + 1, loc2 - loc1 - 1));
-
-
-
-                    Results.Add(esr);
-                }
-
-
-
-            }
-
-
-            es.Results = Results.ToArray();
-            return es;
+            //Now load and return the data
+            es.ParseFromWebHtml(web);
+            return es;          
         }
 
         public EdgarSearchResult GetFirstResultOfFilingType(string filing)
@@ -190,27 +209,30 @@ namespace SecuritiesExchangeCommission.Edgar
     
         public async Task<EdgarSearch> NextPageAsync()
         {
-            #region "Error checking"
-
-            if (Results == null || Results.Length == 0)
+            if (NextPageUrl == null)
             {
-                throw new Exception("There were no search results to get a second page of.");
+                throw new Exception("There is not another page to request");
             }
 
-            #endregion
+            HttpClient hc = new HttpClient();
+            HttpResponseMessage hrm = await hc.GetAsync(NextPageUrl);
+            string content = await hrm.Content.ReadAsStringAsync();
 
-            //Find the oldest search results
-            DateTime OldestSearchResult = Results[0].FilingDate;
-            foreach (EdgarSearchResult esr in Results)
-            {
-                if (esr.FilingDate < OldestSearchResult)
-                {
-                    OldestSearchResult = esr.FilingDate;
-                }
-            }
-
-            EdgarSearch es = await EdgarSearch.CreateAsync(StockSymbol, FilingType, OldestSearchResult.AddDays(-1), OwnershipFilter, ResultsPerPage);
+            EdgarSearch es = new EdgarSearch();
+            es.ParseFromWebHtml(content);
             return es;
+        }
+    
+        public bool NextPageAvailable()
+        {
+            if (NextPageUrl == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
