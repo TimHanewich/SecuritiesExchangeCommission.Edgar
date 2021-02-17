@@ -36,6 +36,12 @@ namespace SecuritiesExchangeCommission.Edgar
             List<EdgarSearchResult> FilingResults = new List<EdgarSearchResult>();
             loc1 = web.IndexOf("tableFile2");
             loc2 = web.IndexOf("</table>", loc1 + 1);
+            if (loc1 == -1 || loc2 == -1) //If we couldnt find the data file table, it means there are no filings, so return nothing.
+            {
+                Results = FilingResults.ToArray();
+                NextPageUrl = null;
+                return;
+            }
             string resulttable = web.Substring(loc1, loc2 - loc1);
             Splitter.Clear();
             Splitter.Add("<tr");
