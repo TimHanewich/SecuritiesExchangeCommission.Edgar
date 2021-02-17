@@ -45,7 +45,7 @@ namespace testing
                                     //Console.WriteLine("Tryng to get " + fd.Url + " ...");
                                     HttpResponseMessage hrm = hc.GetAsync(fd.Url).Result;
                                     string content = hrm.Content.ReadAsStringAsync().Result;
-                                    StatementOfChangesInBeneficialOwnership form4 = StatementOfChangesInBeneficialOwnership.ParseXml(content);
+                                    StatementOfBeneficialOwnership form4 = StatementOfBeneficialOwnership.ParseXml(content);
                                 }
                             }
                         }
@@ -70,7 +70,7 @@ namespace testing
     
         public static void IndividualTest(string[] args)
         {
-            StatementOfChangesInBeneficialOwnership form4 = StatementOfChangesInBeneficialOwnership.ParseXmlFromWebUrlAsync(args[0]).Result;
+            StatementOfBeneficialOwnership form4 = StatementOfBeneficialOwnership.ParseXmlFromWebUrlAsync(args[0]).Result;
             Console.WriteLine(JsonConvert.SerializeObject(form4));
         }
 
