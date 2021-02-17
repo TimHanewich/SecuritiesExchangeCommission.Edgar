@@ -84,7 +84,7 @@ namespace SecuritiesExchangeCommission.Edgar
                 if (node_transactionCode != null)
                 {
                     string tc = node_transactionCode.InnerText.ToLower();
-                    TransactionCode = StatementOfChangesInBeneficialOwnership.TransactionTypeFromCode(tc);
+                    TransactionCode = StatementOfBeneficialOwnership.TransactionTypeFromCode(tc);
                 }
             }
 

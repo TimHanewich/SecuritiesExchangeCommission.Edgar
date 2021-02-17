@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
-    public class StatementOfChangesInBeneficialOwnership //Form 4
+
+    /// <summary>
+    /// SEC Form 3, 4, or 5, relating to beneficial ownership of an entity.
+    /// </summary>
+    public class StatementOfBeneficialOwnership
     {
         //Document data
         public string SchemaVersion {get; set;}
@@ -35,9 +39,9 @@ namespace SecuritiesExchangeCommission.Edgar
         //Derivative transactions
         public DerivativeTransaction[] DerivativeTransactions {get; set;}
 
-        public static StatementOfChangesInBeneficialOwnership ParseXml(string xml)
+        public static StatementOfBeneficialOwnership ParseXml(string xml)
         {
-            StatementOfChangesInBeneficialOwnership ToReturn = new StatementOfChangesInBeneficialOwnership();
+            StatementOfBeneficialOwnership ToReturn = new StatementOfBeneficialOwnership();
 
             //Load the xml
             XmlDocument doc = new XmlDocument();
@@ -198,12 +202,12 @@ namespace SecuritiesExchangeCommission.Edgar
             return ToReturn;
         }
 
-        public static async Task<StatementOfChangesInBeneficialOwnership> ParseXmlFromWebUrlAsync(string url)
+        public static async Task<StatementOfBeneficialOwnership> ParseXmlFromWebUrlAsync(string url)
         {
             HttpClient hc = new HttpClient();
             HttpResponseMessage hrm = await hc.GetAsync(url);
             string content = await hrm.Content.ReadAsStringAsync();
-            StatementOfChangesInBeneficialOwnership ToReturn = StatementOfChangesInBeneficialOwnership.ParseXml(content);
+            StatementOfBeneficialOwnership ToReturn = StatementOfBeneficialOwnership.ParseXml(content);
             return ToReturn;
         }
 
