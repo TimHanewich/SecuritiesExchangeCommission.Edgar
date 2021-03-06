@@ -219,14 +219,14 @@ namespace SecuritiesExchangeCommission.Edgar
             KVPs.Add(new KeyValuePair<string, TransactionType>("V", TransactionType.TransactionVoluntarilyReportedEarlierThanRequired));
             KVPs.Add(new KeyValuePair<string, TransactionType>("A", TransactionType.GrantOrAward));
             KVPs.Add(new KeyValuePair<string, TransactionType>("D", TransactionType.SaleBackToIssuer));
-            KVPs.Add(new KeyValuePair<string, TransactionType>("F", TransactionType.PaymentOfExcersizePriceOrTaxLiability));
+            KVPs.Add(new KeyValuePair<string, TransactionType>("F", TransactionType.PaymentOfExercisePriceOrTaxLiability));
             KVPs.Add(new KeyValuePair<string, TransactionType>("I", TransactionType.DiscretionaryTransaction));
-            KVPs.Add(new KeyValuePair<string, TransactionType>("M", TransactionType.ExcersizeOrConversionOfDerivativeSecurity));
+            KVPs.Add(new KeyValuePair<string, TransactionType>("M", TransactionType.ExerciseOrConversionOfDerivativeSecurity));
             KVPs.Add(new KeyValuePair<string, TransactionType>("C", TransactionType.ConversionOfDerivativeSecurity));
             KVPs.Add(new KeyValuePair<string, TransactionType>("E", TransactionType.ExpirationOfShortDerivativePosition));
             KVPs.Add(new KeyValuePair<string, TransactionType>("H", TransactionType.ExpirationOfLongDerivativePosition));
-            KVPs.Add(new KeyValuePair<string, TransactionType>("O", TransactionType.ExcersizeOfOutOfMoneyDerivative));
-            KVPs.Add(new KeyValuePair<string, TransactionType>("X", TransactionType.ExcersizeOfInMoneyDerivative));
+            KVPs.Add(new KeyValuePair<string, TransactionType>("O", TransactionType.ExerciseOfOutOfMoneyDerivative));
+            KVPs.Add(new KeyValuePair<string, TransactionType>("X", TransactionType.ExerciseOfInMoneyDerivative));
             KVPs.Add(new KeyValuePair<string, TransactionType>("G", TransactionType.BonaFideGift));
             KVPs.Add(new KeyValuePair<string, TransactionType>("L", TransactionType.SmallAcquisition));
             KVPs.Add(new KeyValuePair<string, TransactionType>("W", TransactionType.AcquisitionOrDispositionByWillOrLaws));
