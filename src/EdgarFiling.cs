@@ -16,7 +16,9 @@ namespace SecuritiesExchangeCommission.Edgar
         public async Task<long> GetCikAsync()
         {
             HttpClient hc = new HttpClient();
-            HttpResponseMessage hrm = await hc.GetAsync(DocumentsUrl);
+            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+            req.RequestUri = new Uri(DocumentsUrl);
+            HttpResponseMessage hrm = await hc.SendAsync(req);
             string content = await hrm.Content.ReadAsStringAsync();
 
             int loc1 = content.IndexOf("<acronym title=\"Central Index Key\">CIK</acronym>");
