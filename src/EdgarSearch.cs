@@ -193,7 +193,10 @@ namespace SecuritiesExchangeCommission.Edgar
 
             //Get web data
             HttpClient hc = new HttpClient();
-            HttpResponseMessage hrm = await hc.GetAsync(URL);
+            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+            req.Method = HttpMethod.Get;
+            req.RequestUri = new Uri(URL);
+            HttpResponseMessage hrm = await hc.SendAsync(req);
             string web = await hrm.Content.ReadAsStringAsync();
 
             //Now load and return the data
@@ -221,7 +224,10 @@ namespace SecuritiesExchangeCommission.Edgar
             }
 
             HttpClient hc = new HttpClient();
-            HttpResponseMessage hrm = await hc.GetAsync(NextPageUrl);
+            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+            req.Method = HttpMethod.Get;
+            req.RequestUri = new Uri(NextPageUrl);
+            HttpResponseMessage hrm = await hc.SendAsync(req);
             string content = await hrm.Content.ReadAsStringAsync();
 
             EdgarSearch es = new EdgarSearch();

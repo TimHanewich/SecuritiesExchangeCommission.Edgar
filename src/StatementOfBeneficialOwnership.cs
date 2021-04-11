@@ -205,7 +205,9 @@ namespace SecuritiesExchangeCommission.Edgar
         public static async Task<StatementOfBeneficialOwnership> ParseXmlFromWebUrlAsync(string url)
         {
             HttpClient hc = new HttpClient();
-            HttpResponseMessage hrm = await hc.GetAsync(url);
+            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+            req.RequestUri = new Uri(url);
+            HttpResponseMessage hrm = await hc.SendAsync(req);
             string content = await hrm.Content.ReadAsStringAsync();
             StatementOfBeneficialOwnership ToReturn = StatementOfBeneficialOwnership.ParseXml(content);
             return ToReturn;

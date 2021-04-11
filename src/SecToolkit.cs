@@ -11,7 +11,9 @@ namespace SecuritiesExchangeCommission.Edgar
         {
             string url = "https://www.sec.gov/cgi-bin/browse-edgar?CIK=" + symbol + "&owner=exclude";
             HttpClient hc = new HttpClient();
-            HttpResponseMessage hrm = await hc.GetAsync(url);
+            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+            req.RequestUri = new Uri(url);
+            HttpResponseMessage hrm = await hc.SendAsync(req);
             string web = await hrm.Content.ReadAsStringAsync();
 
             //If it isn't found

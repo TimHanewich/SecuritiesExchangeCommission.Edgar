@@ -21,7 +21,9 @@ namespace SecuritiesExchangeCommission.Edgar
                 if (fd.Description.Trim().ToLower().Contains("instance document"))
                 {
                     HttpClient hc = new HttpClient();
-                    HttpResponseMessage hrm = await hc.GetAsync(fd.Url);
+                    HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+                    req.RequestUri = new Uri(fd.Url);
+                    HttpResponseMessage hrm = await hc.SendAsync(req);
                     Stream s = await hrm.Content.ReadAsStreamAsync();
                     return s;
                 }
@@ -33,7 +35,9 @@ namespace SecuritiesExchangeCommission.Edgar
                 if (fd.DocumentType.ToLower().Contains("ins"))
                 {
                     HttpClient hc = new HttpClient();
-                    HttpResponseMessage hrm = await hc.GetAsync(fd.Url);
+                    HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+                    req.RequestUri = new Uri(fd.Url);
+                    HttpResponseMessage hrm = await hc.SendAsync(req);
                     Stream s = await hrm.Content.ReadAsStreamAsync();
                     return s;
                 }
@@ -51,7 +55,9 @@ namespace SecuritiesExchangeCommission.Edgar
             
             
             HttpClient hc = new HttpClient();
-            HttpResponseMessage hrm = await hc.GetAsync(DocumentsUrl);
+            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+            req.RequestUri = new Uri(DocumentsUrl);
+            HttpResponseMessage hrm = await hc.SendAsync(req);
             string web = await hrm.Content.ReadAsStringAsync();
 
 
@@ -77,7 +83,9 @@ namespace SecuritiesExchangeCommission.Edgar
             int loc2 = 0;
             
             HttpClient hc = new HttpClient();
-            HttpResponseMessage hrm = await hc.GetAsync(DocumentsUrl);
+            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+            req.RequestUri = new Uri(DocumentsUrl);
+            HttpResponseMessage hrm = await hc.SendAsync(req);
             string web = await hrm.Content.ReadAsStringAsync();
 
             loc1 = web.IndexOf("Data Files");
@@ -98,7 +106,9 @@ namespace SecuritiesExchangeCommission.Edgar
             CheckDocumentUrlValid();
 
             HttpClient hc = new HttpClient();
-            HttpResponseMessage hrm = await hc.GetAsync(DocumentsUrl);
+            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+            req.RequestUri = new Uri(DocumentsUrl);
+            HttpResponseMessage hrm = await hc.SendAsync(req);
             string web = await hrm.Content.ReadAsStringAsync();
 
             int loc1 = web.IndexOf("<div id=\"secNum\">");
