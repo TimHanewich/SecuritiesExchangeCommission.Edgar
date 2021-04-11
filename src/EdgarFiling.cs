@@ -51,28 +51,30 @@ namespace SecuritiesExchangeCommission.Edgar
 
             //Get the content
             HttpClient hc = new HttpClient();
-            HttpResponseMessage hrm = await hc.GetAsync(DocumentsUrl);
+            HttpRequestMessage req = new HttpRequestMessage();
+            req.RequestUri = new Uri(DocumentsUrl);
+            req.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36 Edg/89.0.774.75"); //This identifies the request as coming from a browser. If we do not provide info, the SEC will flag this as coming from an undeclared tool.
+            HttpResponseMessage hrm = await hc.SendAsync(req);
             string web = await hrm.Content.ReadAsStringAsync();
 
             //Get the accession number
             try
             {
                 int loc1 = web.IndexOf("<div id=\"secNum\">");
-                if (loc1 == -1)
+                if (loc1 != -1)
                 {
-                    throw new Exception("Unable to locate the Accession Number. It may not exist!");
+                    loc1 = web.IndexOf("</strong>", loc1 + 1);
+                    loc1 = web.IndexOf(">", loc1 + 1);
+                    int loc2 = web.IndexOf("<", loc1 + 1);
+                    string acn = web.Substring(loc1 + 1, loc2 - loc1 - 1);
+                    acn = acn.Trim();
+                    List<string> Splitter = new List<string>();
+                    Splitter.Add("-");
+                    string[] parts = acn.Split(Splitter.ToArray(), StringSplitOptions.None);
+                    ToReturn.AccessionNumberP1 = Convert.ToInt64(parts[0]);
+                    ToReturn.AccessionNumberP2 = Convert.ToInt32(parts[1]);
+                    ToReturn.AccessionNumberP3 = Convert.ToInt32(parts[2]);
                 }
-                loc1 = web.IndexOf("</strong>", loc1 + 1);
-                loc1 = web.IndexOf(">", loc1 + 1);
-                int loc2 = web.IndexOf("<", loc1 + 1);
-                string acn = web.Substring(loc1 + 1, loc2 - loc1 - 1);
-                acn = acn.Trim();
-                List<string> Splitter = new List<string>();
-                Splitter.Add("-");
-                string[] parts = acn.Split(Splitter.ToArray(), StringSplitOptions.None);
-                ToReturn.AccessionNumberP1 = Convert.ToInt64(parts[0]);
-                ToReturn.AccessionNumberP2 = Convert.ToInt32(parts[1]);
-                ToReturn.AccessionNumberP3 = Convert.ToInt32(parts[2]);
             }
             catch
             {
