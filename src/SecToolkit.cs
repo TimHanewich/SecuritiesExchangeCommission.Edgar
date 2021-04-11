@@ -31,6 +31,7 @@ namespace SecuritiesExchangeCommission.Edgar
         public static HttpRequestMessage PrepareHttpRequestMessage()
         {
             HttpRequestMessage req = new HttpRequestMessage();
+            req.Method = HttpMethod.Get;
             req.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36 Edg/89.0.774.75"); //This identifies the request as coming from a browser. If we do not provide info, the SEC will flag this as coming from an undeclared tool.
             return req;
         }
