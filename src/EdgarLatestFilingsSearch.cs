@@ -66,12 +66,8 @@ namespace SecuritiesExchangeCommission.Edgar
             #endregion
         
             //Call the search
-            HttpClient hc = new HttpClient();
-            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
-            req.Method = HttpMethod.Get;
-            req.RequestUri = new Uri(search_url);
-            HttpResponseMessage hrm = await hc.SendAsync(req);
-            string content = await hrm.Content.ReadAsStringAsync();
+            SecRequestManager reqmgr = new SecRequestManager();
+            string content = await reqmgr.SecGetAsync(search_url);
 
             List<EdgarLatestFilingResult> searchResults = new List<EdgarLatestFilingResult>();
 

@@ -20,11 +20,8 @@ namespace SecuritiesExchangeCommission.Edgar
             {
                 if (fd.Description.Trim().ToLower().Contains("instance document"))
                 {
-                    HttpClient hc = new HttpClient();
-                    HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
-                    req.RequestUri = new Uri(fd.Url);
-                    HttpResponseMessage hrm = await hc.SendAsync(req);
-                    Stream s = await hrm.Content.ReadAsStreamAsync();
+                    SecRequestManager reqmgr = new SecRequestManager();
+                    Stream s = await reqmgr.SecGetStreamAsync(fd.Url);
                     return s;
                 }
             }
@@ -34,11 +31,8 @@ namespace SecuritiesExchangeCommission.Edgar
             {
                 if (fd.DocumentType.ToLower().Contains("ins"))
                 {
-                    HttpClient hc = new HttpClient();
-                    HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
-                    req.RequestUri = new Uri(fd.Url);
-                    HttpResponseMessage hrm = await hc.SendAsync(req);
-                    Stream s = await hrm.Content.ReadAsStreamAsync();
+                    SecRequestManager reqmgr = new SecRequestManager();
+                    Stream s = await reqmgr.SecGetStreamAsync(fd.Url);
                     return s;
                 }
             }
@@ -53,13 +47,8 @@ namespace SecuritiesExchangeCommission.Edgar
             int loc1 = 0;
             int loc2 = 0;
             
-            
-            HttpClient hc = new HttpClient();
-            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
-            req.RequestUri = new Uri(DocumentsUrl);
-            HttpResponseMessage hrm = await hc.SendAsync(req);
-            string web = await hrm.Content.ReadAsStringAsync();
-
+            SecRequestManager reqmgr = new SecRequestManager();
+            string web = await reqmgr.SecGetAsync(DocumentsUrl);
 
             loc1 = web.IndexOf("Document Format Files");
             loc2 = web.IndexOf("</table>");
@@ -82,11 +71,8 @@ namespace SecuritiesExchangeCommission.Edgar
             int loc1 = 0;
             int loc2 = 0;
             
-            HttpClient hc = new HttpClient();
-            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
-            req.RequestUri = new Uri(DocumentsUrl);
-            HttpResponseMessage hrm = await hc.SendAsync(req);
-            string web = await hrm.Content.ReadAsStringAsync();
+            SecRequestManager reqmgr = new SecRequestManager();
+            string web = await reqmgr.SecGetAsync(DocumentsUrl);
 
             loc1 = web.IndexOf("Data Files");
             loc2 = web.IndexOf("</table>", loc1 + 1);
@@ -105,11 +91,8 @@ namespace SecuritiesExchangeCommission.Edgar
         {
             CheckDocumentUrlValid();
 
-            HttpClient hc = new HttpClient();
-            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
-            req.RequestUri = new Uri(DocumentsUrl);
-            HttpResponseMessage hrm = await hc.SendAsync(req);
-            string web = await hrm.Content.ReadAsStringAsync();
+            SecRequestManager reqmgr = new SecRequestManager();
+            string web = await reqmgr.SecGetAsync(DocumentsUrl);
 
             int loc1 = web.IndexOf("<div id=\"secNum\">");
             if (loc1 == -1)

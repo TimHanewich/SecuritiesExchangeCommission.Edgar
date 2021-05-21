@@ -192,12 +192,8 @@ namespace SecuritiesExchangeCommission.Edgar
             #endregion
 
             //Get web data
-            HttpClient hc = new HttpClient();
-            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
-            req.Method = HttpMethod.Get;
-            req.RequestUri = new Uri(URL);
-            HttpResponseMessage hrm = await hc.SendAsync(req);
-            string web = await hrm.Content.ReadAsStringAsync();
+            SecRequestManager reqmgr = new SecRequestManager();
+            string web = await reqmgr.SecGetAsync(URL);
 
             //Now load and return the data
             es.ParseFromWebHtml(web);
@@ -223,12 +219,8 @@ namespace SecuritiesExchangeCommission.Edgar
                 throw new Exception("There is not another page to request");
             }
 
-            HttpClient hc = new HttpClient();
-            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
-            req.Method = HttpMethod.Get;
-            req.RequestUri = new Uri(NextPageUrl);
-            HttpResponseMessage hrm = await hc.SendAsync(req);
-            string content = await hrm.Content.ReadAsStringAsync();
+            SecRequestManager reqmgr = new SecRequestManager();
+            string content = await reqmgr.SecGetAsync(NextPageUrl);
 
             EdgarSearch es = new EdgarSearch();
             es.ParseFromWebHtml(content);

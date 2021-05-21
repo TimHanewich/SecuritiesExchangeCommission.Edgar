@@ -10,11 +10,8 @@ namespace SecuritiesExchangeCommission.Edgar
         public static async Task<string> GetCompanyCikFromTradingSymbolAsync(string symbol)
         {
             string url = "https://www.sec.gov/cgi-bin/browse-edgar?CIK=" + symbol + "&owner=exclude";
-            HttpClient hc = new HttpClient();
-            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
-            req.RequestUri = new Uri(url);
-            HttpResponseMessage hrm = await hc.SendAsync(req);
-            string web = await hrm.Content.ReadAsStringAsync();
+            SecRequestManager reqmgr = new SecRequestManager();
+            string web = await reqmgr.SecGetAsync(url);
 
             //If it isn't found
             if (web.Contains("<h1>No matching Ticker Symbol.</h1>"))
