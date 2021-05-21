@@ -49,11 +49,8 @@ namespace SecuritiesExchangeCommission.Edgar
             EdgarFilingDetails ToReturn = new EdgarFilingDetails();
 
             //Get the content
-            HttpClient hc = new HttpClient();
-            HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
-            req.RequestUri = new Uri(DocumentsUrl);
-            HttpResponseMessage hrm = await hc.SendAsync(req);
-            string web = await hrm.Content.ReadAsStringAsync();
+            SecRequestManager reqmgr = new SecRequestManager();
+            string web = await reqmgr.SecGetAsync(DocumentsUrl);
 
             //Get the accession number
             try
