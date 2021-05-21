@@ -80,6 +80,55 @@ namespace SecuritiesExchangeCommission.Edgar
             return ToReturn;
         }
 
+        public async Task<Stream> SecGetStreamAsync(string url)
+        {
+            Stream ToReturn = null;
+
+            //Setup
+            HttpClient hc = new HttpClient();
+            int havetried = 0;
+
+            while (ToReturn == null && havetried < MaxTryCount)
+            {
+                //Prepare the request
+                TryUpdateStatus("Preparing request...");
+                HttpRequestMessage req = SecToolkit.PrepareHttpRequestMessage();
+                req.RequestUri = new Uri(url);
+                req.Method = HttpMethod.Get;
+
+                //Take the request delay timeout first
+                TryUpdateStatus("Taking request delay...");
+                await Task.Delay(RequestDelay);
+                
+                //Make the call
+                TryUpdateStatus("Attempting call...");
+                HttpResponseMessage resp = await hc.SendAsync(req);
+                if (resp.StatusCode == HttpStatusCode.OK)
+                {
+                    ToReturn = await resp.Content.ReadAsStreamAsync();
+                }
+                else if (resp.StatusCode == HttpStatusCode.Forbidden) //Code 403 (throttled)
+                {
+                    if (Throttled != null) //Raise the throttled event
+                    {
+                        Throttled.Invoke();
+                    }
+                    TryUpdateStatus("Request was denied due to throttling. Waiting for timeout...");
+                    await Task.Delay(TimeoutDelay);
+                    havetried = havetried + 1;
+                    TryUpdateStatus("Try count incremented and will try again.");
+                }
+            }
+
+            //If the have tried is what caused it (it is over the limit), throw an exception
+            if (havetried >= MaxTryCount)
+            {
+                throw new Exception("Unable to get data for URL '" + url + "'. Surpassed maximum try count of " + MaxTryCount.ToString());
+            }
+
+            return ToReturn;
+        }
+
         private void TryUpdateStatus(string msg)
         {
             if (StatusChanged != null)
