@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
-    public class SecThrottlingManager
+    public class SecRequestManager
     {
         //Events
         public event Notification StatusChanged; //Status was updated
@@ -17,14 +17,14 @@ namespace SecuritiesExchangeCommission.Edgar
         public TimeSpan TimeoutDelay {get; set;} //The time that will be waited after we get a throttling warning
         public ushort MaxTryCount {get; set;} //The maximum number of trys that will occur before giving up (if it keeps getting throttle warnings)
 
-        public SecThrottlingManager()
+        public SecRequestManager()
         {
             RequestDelay = new TimeSpan(0, 0, 0, 0, 250); //250 milliseconds (quarter of a second)
             TimeoutDelay = new TimeSpan(0, 0, 2); //2 seconds
             MaxTryCount = 10;
         }
 
-        public SecThrottlingManager(TimeSpan request_delay, TimeSpan timeout_delay, ushort max_trys)
+        public SecRequestManager(TimeSpan request_delay, TimeSpan timeout_delay, ushort max_trys)
         {
             RequestDelay = request_delay;
             TimeoutDelay = timeout_delay;
