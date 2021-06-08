@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
@@ -10,5 +12,32 @@ namespace SecuritiesExchangeCommission.Edgar
         public string Url {get; set;}
         public string DocumentType {get; set;}
         public int Size {get; set;}
+
+        public async Task<Stream> DownloadAsync()
+        {
+            //Check a URL exists
+            if (Url == null)
+            {
+                throw new Exception("Unable to download document. Url was null.");
+            }
+            else if (Url == "")
+            {
+                throw new Exception("Unable to download document. Url was blank.");
+            }
+
+            //Download
+            SecRequestManager reqmgr = new SecRequestManager();
+            Stream s = null;
+            try
+            {
+                s = await reqmgr.SecGetStreamAsync(Url);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Fatal failure while downloading filing document at '" + Url + "'. Msg: " + ex.Message);
+            }
+
+            return s;
+        }
     }
 }
