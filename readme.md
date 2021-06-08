@@ -16,3 +16,6 @@ if (msft10ks.NextPageAvailable())
     EdgarSearch next_page = await msft10ks.NextPageAsync();
 }
 ```
+
+## Extracting Data from Filings
+The `Results` property of the `EdgarSearch` instance we used to query the database will contain an array of `EdgarSearchResult` instances. These instances will contain some basic details about the filing and provide you with a method to access additional details about that particular filing.
