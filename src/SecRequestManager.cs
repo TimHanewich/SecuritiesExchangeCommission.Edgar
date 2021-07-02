@@ -12,6 +12,9 @@ namespace SecuritiesExchangeCommission.Edgar
         //Instance of self
         public static SecRequestManager Instance = new SecRequestManager();
 
+        //User agent to use for requests to SEC
+        public string UserAgent {get; set;}
+
         //Events
         public event Notification StatusChanged; //Status was updated
         public event Action Throttled; //We were throttled by the SEC
