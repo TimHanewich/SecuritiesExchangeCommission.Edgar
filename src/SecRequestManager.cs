@@ -9,6 +9,9 @@ namespace SecuritiesExchangeCommission.Edgar
 {
     public class SecRequestManager
     {
+        //Instance of self
+        public static SecRequestManager Instance = new SecRequestManager();
+
         //Events
         public event Notification StatusChanged; //Status was updated
         public event Action Throttled; //We were throttled by the SEC
