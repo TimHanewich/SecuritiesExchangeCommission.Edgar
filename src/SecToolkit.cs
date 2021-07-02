@@ -35,5 +35,14 @@ namespace SecuritiesExchangeCommission.Edgar
             req.Headers.Add("Accept", "*/*");
             return req;
         }
+
+        public static HttpRequestMessage PrepareHttpRequestMessage(string user_agent)
+        {
+            HttpRequestMessage req = new HttpRequestMessage();
+            req.Method = HttpMethod.Get;
+            req.Headers.Add("User-Agent", user_agent); //This identifies the request as coming from a browser. If we do not provide info, the SEC will flag this as coming from an undeclared tool.
+            req.Headers.Add("Accept", "*/*");
+            return req;
+        }
     }
 }
