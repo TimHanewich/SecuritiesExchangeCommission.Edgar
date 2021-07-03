@@ -147,16 +147,17 @@ namespace SecuritiesExchangeCommission.Edgar
         {
             HttpRequestMessage req = new HttpRequestMessage();
             req.Method = HttpMethod.Get;
-            req.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36 Edg/89.0.774.75"); //This identifies the request as coming from a browser. If we do not provide info, the SEC will flag this as coming from an undeclared tool.
-            req.Headers.Add("Accept", "*/*");
-            return req;
-        }
 
-        public HttpRequestMessage PrepareHttpRequestMessage(string user_agent)
-        {
-            HttpRequestMessage req = new HttpRequestMessage();
-            req.Method = HttpMethod.Get;
-            req.Headers.Add("User-Agent", user_agent); //This identifies the request as coming from a browser. If we do not provide info, the SEC will flag this as coming from an undeclared tool.
+            //Add user agent header
+            if (UserAgent == null) //If they did not specify it, make it default
+            {
+                req.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36 Edg/89.0.774.75"); //This identifies the request as coming from a browser. If we do not provide info, the SEC will flag this as coming from an undeclared tool.
+            }
+            else //If they did specify, make it the one they specify
+            {
+                req.Headers.Add("User-Agent", UserAgent);
+            }
+            
             req.Headers.Add("Accept", "*/*");
             return req;
         }
