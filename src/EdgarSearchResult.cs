@@ -20,8 +20,7 @@ namespace SecuritiesExchangeCommission.Edgar
             {
                 if (fd.Description.Trim().ToLower().Contains("instance document"))
                 {
-                    SecRequestManager reqmgr = new SecRequestManager();
-                    Stream s = await reqmgr.SecGetStreamAsync(fd.Url);
+                    Stream s = await SecRequestManager.Instance.SecGetStreamAsync(fd.Url);
                     return s;
                 }
             }
@@ -31,8 +30,7 @@ namespace SecuritiesExchangeCommission.Edgar
             {
                 if (fd.DocumentType.ToLower().Contains("ins"))
                 {
-                    SecRequestManager reqmgr = new SecRequestManager();
-                    Stream s = await reqmgr.SecGetStreamAsync(fd.Url);
+                    Stream s = await SecRequestManager.Instance.SecGetStreamAsync(fd.Url);
                     return s;
                 }
             }
@@ -47,8 +45,7 @@ namespace SecuritiesExchangeCommission.Edgar
             int loc1 = 0;
             int loc2 = 0;
             
-            SecRequestManager reqmgr = new SecRequestManager();
-            string web = await reqmgr.SecGetAsync(DocumentsUrl);
+            string web = await SecRequestManager.Instance.SecGetAsync(DocumentsUrl);
 
             loc1 = web.IndexOf("Document Format Files");
             loc2 = web.IndexOf("</table>");
@@ -71,8 +68,7 @@ namespace SecuritiesExchangeCommission.Edgar
             int loc1 = 0;
             int loc2 = 0;
             
-            SecRequestManager reqmgr = new SecRequestManager();
-            string web = await reqmgr.SecGetAsync(DocumentsUrl);
+            string web = await SecRequestManager.Instance.SecGetAsync(DocumentsUrl);
 
             loc1 = web.IndexOf("Data Files");
             loc2 = web.IndexOf("</table>", loc1 + 1);
@@ -91,8 +87,7 @@ namespace SecuritiesExchangeCommission.Edgar
         {
             CheckDocumentUrlValid();
 
-            SecRequestManager reqmgr = new SecRequestManager();
-            string web = await reqmgr.SecGetAsync(DocumentsUrl);
+            string web = await SecRequestManager.Instance.SecGetAsync(DocumentsUrl);
 
             int loc1 = web.IndexOf("<div id=\"secNum\">");
             if (loc1 == -1)

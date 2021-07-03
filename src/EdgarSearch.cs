@@ -192,8 +192,7 @@ namespace SecuritiesExchangeCommission.Edgar
             #endregion
 
             //Get web data
-            SecRequestManager reqmgr = new SecRequestManager();
-            string web = await reqmgr.SecGetAsync(URL);
+            string web = await SecRequestManager.Instance.SecGetAsync(URL);
 
             //Now load and return the data
             es.ParseFromWebHtml(web);
@@ -219,8 +218,7 @@ namespace SecuritiesExchangeCommission.Edgar
                 throw new Exception("There is not another page to request");
             }
 
-            SecRequestManager reqmgr = new SecRequestManager();
-            string content = await reqmgr.SecGetAsync(NextPageUrl);
+            string content = await SecRequestManager.Instance.SecGetAsync(NextPageUrl);
 
             EdgarSearch es = new EdgarSearch();
             es.ParseFromWebHtml(content);

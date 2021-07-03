@@ -66,8 +66,7 @@ namespace SecuritiesExchangeCommission.Edgar
             #endregion
         
             //Call the search
-            SecRequestManager reqmgr = new SecRequestManager();
-            string content = await reqmgr.SecGetAsync(search_url);
+            string content = await SecRequestManager.Instance.SecGetAsync(search_url);
 
             List<EdgarLatestFilingResult> searchResults = new List<EdgarLatestFilingResult>();
 

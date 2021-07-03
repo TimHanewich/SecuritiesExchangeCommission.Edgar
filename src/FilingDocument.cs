@@ -26,11 +26,10 @@ namespace SecuritiesExchangeCommission.Edgar
             }
 
             //Download
-            SecRequestManager reqmgr = new SecRequestManager();
             Stream s = null;
             try
             {
-                s = await reqmgr.SecGetStreamAsync(Url);
+                s = await SecRequestManager.Instance.SecGetStreamAsync(Url);
             }
             catch (Exception ex)
             {

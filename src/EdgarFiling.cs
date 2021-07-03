@@ -15,8 +15,7 @@ namespace SecuritiesExchangeCommission.Edgar
 
         public async Task<long> GetCikAsync()
         {
-            SecRequestManager reqmgr = new SecRequestManager();
-            string content = await reqmgr.SecGetAsync(DocumentsUrl);
+            string content = await SecRequestManager.Instance.SecGetAsync(DocumentsUrl);
 
             int loc1 = content.IndexOf("<acronym title=\"Central Index Key\">CIK</acronym>");
             if (loc1 == -1)
@@ -49,8 +48,7 @@ namespace SecuritiesExchangeCommission.Edgar
             EdgarFilingDetails ToReturn = new EdgarFilingDetails();
 
             //Get the content
-            SecRequestManager reqmgr = new SecRequestManager();
-            string web = await reqmgr.SecGetAsync(DocumentsUrl);
+            string web = await SecRequestManager.Instance.SecGetAsync(DocumentsUrl);
 
             //Get the accession number
             try
