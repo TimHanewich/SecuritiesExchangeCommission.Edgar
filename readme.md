@@ -1,6 +1,15 @@
 # SecuritiesExchangeCommission.Edgar
 .NET class library for accessing the Security Exchange Commission's EDGAR database. This library allows you to access over twenty years worth of financial data that has been reported to the SEC, mostly by publicly traded companies.
 
+## Delcare a User-Agent!
+The SEC requires all automated tools to declare their traffic by specifying a user agent in each HTTP request header. This library is designed to do that and will pass the User-Agent that you provide. To set your User-Agent:
+```
+SecuritiesExchangeCommission.Edgar.SecRequestManager.Instance.UserAgent = "MyCompany/4.1.0";
+```
+In the above example, `MyCompany` is the name of your company/service (declaring who you are) and the `4.1.0` declares the version of the service. The name and version must be separated by the forward slash. More on User-Agents an be read [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent).
+
+**Be sure to follow this step before doing anything with this library! If you do not, it will likely fail to return any data!**
+
 ## Querying the SEC EDGAR Database
 Use the `EdgarSearch` class to query the database for filings for any publicly traded company.  
 For example, requesting Microsoft's ($MSFT) latest 10-K filings:
