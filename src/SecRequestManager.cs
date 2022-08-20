@@ -128,7 +128,6 @@ namespace SecuritiesExchangeCommission.Edgar
             {
                 StatusChanged.Invoke(msg);
             }
-            Console.WriteLine(">>> " + msg);
         }
     
         public HttpRequestMessage PrepareHttpRequestMessage()
