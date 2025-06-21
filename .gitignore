@@ -4,3 +4,4 @@ src/.vs/
 testing/bin/
 testing/obj/
 .vscode/
+*.sln
