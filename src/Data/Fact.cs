@@ -15,7 +15,8 @@ namespace SecuritiesExchangeCommission.Edgar.Data
         {
             Fact ToReturn = new Fact();
 
-            if (jo.TryGetValue("label", out JToken val_label)){ ToReturn.Label = val_label.ToString(); }
+            if (jo.TryGetValue("tag", out JToken val_tag)){ ToReturn.Tag = val_tag.ToString(); } //The tag will be in the fact JSON itself in the CompanyConceptQuery only... not CompanyFactsQuery (in that scenario, it is the NAME of the JObject property, so not visible within it)
+            if (jo.TryGetValue("label", out JToken val_label)) { ToReturn.Label = val_label.ToString(); }
             if (jo.TryGetValue("description", out JToken val_description)){ ToReturn.Description = val_description.ToString(); }
 
             //Get fact data
