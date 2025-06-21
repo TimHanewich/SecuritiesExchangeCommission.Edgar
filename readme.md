@@ -38,7 +38,7 @@ Recently, the SEC created a REST API service that supplies data. You can find do
 
 This library also allows you to interface with the two most useful endpoints of the API: `/companyconcept` and `companyfacts`.
 
-## Company Facts
+### Company Facts
 `/companyfacts` returns a list of every XBRL fact that the company has ever reported, and every discrete data point associated with each fact. It is a lot of data!
 
 Below is an example of how to interface with the SEC's `/companyfacts` service:
@@ -100,7 +100,7 @@ Data Points:
 Press enter to continue onto the next fact...
 ```
 
-## Company Concept
+### Company Concept
 `/companyconcept` returns a list of discrete data that a company reported for a *particular fact tag* (i.e. `AssetsCurrent`).
 
 We can interface with the `/companyconcept` service like so:
