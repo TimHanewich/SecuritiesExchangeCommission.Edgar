@@ -2,7 +2,7 @@ using System;
 
 namespace SecuritiesExchangeCommission.Edgar
 {
-    public class RequestManager
+    public class IdentificationManager
     {
         //Modifiable propertie
         public string AppName { get; set; }
@@ -10,10 +10,10 @@ namespace SecuritiesExchangeCommission.Edgar
         public string Email { get; set; }
 
         //Create version of it
-        private static readonly RequestManager _instance = new RequestManager();
+        private static readonly IdentificationManager _instance = new IdentificationManager();
 
         //Reference
-        public static RequestManager Instance
+        public static IdentificationManager Instance
         {
             get
             {
