@@ -52,9 +52,8 @@ namespace SecuritiesExchangeCommission.Edgar.Data
             HttpRequestMessage req = new HttpRequestMessage();
             req.Method = HttpMethod.Get;
             req.RequestUri = new Uri(url);
-            req.Headers.Add("User-Agent", "");
+            req.Headers.Add("User-Agent", RequestManager.Instance.ToUserAgent());
             HttpResponseMessage resp = await hc.SendAsync(req);
-
 
             string content = await resp.Content.ReadAsStringAsync();
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)

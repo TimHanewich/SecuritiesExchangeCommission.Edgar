@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SecuritiesExchangeCommission.Edgar.Data
 {
@@ -31,6 +35,30 @@ namespace SecuritiesExchangeCommission.Edgar.Data
             ToReturn.Result = Fact.Parse(jo);
 
             return ToReturn;
+        }
+
+        public static async Task<CompanyConceptQuery> QueryAsync(int CIK, string tag)
+        {
+            string cikPortion = CIK.ToString("0000000000"); //must have leading 0's
+            string url = "https://data.sec.gov/api/xbrl/companyconcept/CIK" + cikPortion + "/us-gaap/" + tag + ".json";
+
+            //Call
+            HttpClient hc = new HttpClient();
+            HttpRequestMessage req = new HttpRequestMessage();
+            req.Method = HttpMethod.Get;
+            req.RequestUri = new Uri(url);
+            req.Headers.Add("User-Agent", RequestManager.Instance.ToUserAgent());
+            HttpResponseMessage resp = await hc.SendAsync(req);
+
+            string content = await resp.Content.ReadAsStringAsync();
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("Request to SEC data API returned response '" + resp.StatusCode.ToString() + "'. Content: " + content);
+            }
+
+            //Parse and Return
+            JObject jo = JObject.Parse(content);
+            return CompanyConceptQuery.Parse(jo);
         }
     }
 }
