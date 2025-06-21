@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using SecuritiesExchangeCommission.Edgar.Data;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
+using SecuritiesExchangeCommission.Edgar;
 
 namespace testing
 {
@@ -18,12 +19,14 @@ namespace testing
     {
         static void Main(string[] args)
         {
-            RequestManager.Instance.AppName = "LApp";
-            RequestManager.Instance.AppVersion = "1.0";
-            RequestManager.Instance.Email = "chrisha@gmail.com";
+            IdentificationManager.Instance.AppName = "LApp";
+            IdentificationManager.Instance.AppVersion = "1.0";
+            IdentificationManager.Instance.Email = "chrisha@gmail.com";
 
-            CompanyConceptQuery ccq = CompanyConceptQuery.QueryAsync(789019, "AssetsCurrent").Result;
-            Console.WriteLine(JsonConvert.SerializeObject(ccq));
+            EdgarSearch msft10ks = EdgarSearch.CreateAsync("MSFT", "10-K").Result;
+
+            Console.WriteLine(JsonConvert.SerializeObject(msft10ks));
+
         }
     }
 }
