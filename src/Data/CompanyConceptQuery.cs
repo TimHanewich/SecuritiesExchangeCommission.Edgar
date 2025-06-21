@@ -47,7 +47,7 @@ namespace SecuritiesExchangeCommission.Edgar.Data
             HttpRequestMessage req = new HttpRequestMessage();
             req.Method = HttpMethod.Get;
             req.RequestUri = new Uri(url);
-            req.Headers.Add("User-Agent", RequestManager.Instance.ToUserAgent());
+            req.Headers.Add("User-Agent", IdentificationManager.Instance.ToUserAgent());
             HttpResponseMessage resp = await hc.SendAsync(req);
 
             string content = await resp.Content.ReadAsStringAsync();
