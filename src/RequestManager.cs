@@ -1,6 +1,6 @@
 using System;
 
-namespace SecuritiesExchangeCommission.Edgar.Data
+namespace SecuritiesExchangeCommission.Edgar
 {
     public class RequestManager
     {
