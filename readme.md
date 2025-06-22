@@ -1,6 +1,15 @@
 # SecuritiesExchangeCommission.Edgar
 .NET class library for accessing the Security Exchange Commission's EDGAR database. This library allows you to access over twenty years worth of financial data that has been reported to the SEC, mostly by publicly traded companies.
 
+![icon](https://img.shields.io/nuget/v/SecuritiesExchangeCommission.Edgar) ![NuGet Downloads](https://img.shields.io/nuget/dt/SecuritiesExchangeCommission.Edgar) ![License](https://img.shields.io/github/license/TimHanewich/SecuritiesExchangeCommission.Edgar)
+
+
+Install the package [from Nuget](https://www.nuget.org/packages/SecuritiesExchangeCommission.Edgar):
+
+```
+dotnet add package SecuritiesExchangeCommission.Edgar
+```
+
 ## Make sure to Identify your Program!
 The SEC requires all automated tools to declare their traffic by specifying a user agent in each HTTP request header. This library is designed to do that and will pass the User-Agent according to the SEC's expected format (`AppName/1.0 (email)`). This should be the first thing you do!
 
